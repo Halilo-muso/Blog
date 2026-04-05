@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f1eb;
+  --foreground: #111827;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-newsreader);
+  --color-surface: var(--background);
+  --color-text: var(--foreground);
+  --color-soft-text: var(--color-soft-text-raw);
+  --color-muted: var(--color-muted-raw);
+  --color-panel: var(--color-panel-raw);
+  --color-card: var(--color-card-raw);
+  --color-border: var(--color-border-raw);
+  --color-accent: var(--color-accent-raw);
+  --color-accent-foreground: var(--color-accent-foreground-raw);
+}
+
+:root,
+html[data-theme="light"] {
+  --background: #f4f1eb;
+  --foreground: #111827;
+  --color-soft-text-raw: #475569;
+  --color-muted-raw: #6b7280;
+  --color-panel-raw: rgba(255, 255, 255, 0.66);
+  --color-card-raw: rgba(255, 255, 255, 0.78);
+  --color-border-raw: rgba(15, 23, 42, 0.1);
+  --color-accent-raw: #0f766e;
+  --color-accent-foreground-raw: #f8fafc;
+}
+
+html[data-theme="dark"] {
+  --background: #09090b;
+  --foreground: #f3f4f6;
+  --color-soft-text-raw: #a1a1aa;
+  --color-muted-raw: #71717a;
+  --color-panel-raw: rgba(24, 24, 27, 0.82);
+  --color-card-raw: rgba(30, 30, 35, 0.84);
+  --color-border-raw: rgba(255, 255, 255, 0.08);
+  --color-accent-raw: #7dd3fc;
+  --color-accent-foreground-raw: #082f49;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    --background: #09090b;
+    --foreground: #f3f4f6;
+    --color-soft-text-raw: #a1a1aa;
+    --color-muted-raw: #71717a;
+    --color-panel-raw: rgba(24, 24, 27, 0.82);
+    --color-card-raw: rgba(30, 30, 35, 0.84);
+    --color-border-raw: rgba(255, 255, 255, 0.08);
+    --color-accent-raw: #7dd3fc;
+    --color-accent-foreground-raw: #082f49;
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
+  margin: 0;
+  background:
+    radial-gradient(circle at top, rgba(125, 211, 252, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 30%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-manrope), "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
+}
+
+.article-body {
+  font-size: 1.05rem;
+  line-height: 1.95;
+  color: var(--foreground);
+}
+
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  margin-top: 2.7rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-newsreader), Georgia, serif;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.article-body h2 {
+  font-size: 2rem;
+}
+
+.article-body h3 {
+  font-size: 1.5rem;
+}
+
+.article-body p,
+.article-body ul,
+.article-body ol,
+.article-body blockquote,
+.article-body pre {
+  margin: 1.15rem 0;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 1.35rem;
+}
+
+.article-body li + li {
+  margin-top: 0.45rem;
+}
+
+.article-body a {
+  color: var(--color-accent);
+}
+
+.article-body strong {
+  color: var(--foreground);
+}
+
+.article-body blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+  color: var(--color-soft-text);
+}
+
+.article-body code {
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.92em;
+}
+
+.article-body pre {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.article-body pre code {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.article-body hr {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.article-body img {
+  width: 100%;
+  border-radius: 1.25rem;
+}
+
+.text-balance {
+  text-wrap: balance;
 }
