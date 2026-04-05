@@ -1,30 +1,33 @@
----
-title: "你好，静かな森"
+﻿---
+title: "Hello, Shalilo"
 date: "2026-04-05"
-summary: "这是博客毛坯房的第一篇文章，用来确认 Markdown 内容、路由和阅读页都已正常工作。"
+summary: "The first sample post for the blog, used to verify Markdown loading, routing, and reading pages."
 published: true
 ---
 
-欢迎来到我的博客。
+Welcome to Shalilo's blog.
 
-这篇文章没有承担太多内容任务，它更像是一块地基石头，用来验证整个 Phase 1 是否已经跑通：
+This post is just a simple foundation stone for Phase 1. It confirms that the
+main writing flow already works:
 
-- 首页可以展示最近文章
-- `/blog` 可以列出全部文章
-- `/blog/[slug]` 可以渲染 Markdown 内容
-- 深色模式可以切换
+- the homepage can show recent posts
+- `/blog` can list all published posts
+- `/blog/[slug]` can render Markdown content
+- the theme toggle works
 
-## 为什么先做毛坯房
+## Why start with a simple shell
 
-如果一开始就追求和参考站点一模一样，开发会很容易失控。对新手来说，更合理的路线是先完成信息架构和写作链路，再逐步优化视觉、排版和交互。
+Trying to match a reference site too early usually slows everything down. A more
+practical path is to finish the content structure first and improve visuals,
+layout, and motion later.
 
-## 接下来会继续做什么
+## What comes next
 
-后续阶段会慢慢加入：
+Future phases can add:
 
-- 元数据与标签
-- 目录和上一篇下一篇
-- 代码高亮与图片优化
-- 更细腻的动画和排版系统
+- richer metadata and tags
+- table of contents and post navigation
+- syntax highlighting and image improvements
+- more refined motion and typography
 
-现在这座森林还很空，但已经可以写作了。
+The site is still minimal, but it is ready for writing.

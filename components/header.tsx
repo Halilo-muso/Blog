@@ -1,9 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigation = [
-  { href: "/", label: "首页" },
-  { href: "/blog", label: "文章" },
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function Header() {
@@ -11,7 +11,7 @@ export function Header() {
     <header className="sticky top-0 z-30 border-b border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-surface)_72%,transparent)] backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
         <Link href="/" className="font-display text-2xl tracking-tight">
-          静かな森
+          Shalilo
         </Link>
 
         <div className="flex items-center gap-2">

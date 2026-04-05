@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Script from "next/script";
 import { Manrope, Newsreader } from "next/font/google";
 import { Footer } from "@/components/footer";
@@ -17,11 +17,11 @@ const newsreader = Newsreader({
 
 export const metadata: Metadata = {
   title: {
-    default: "静かな森",
-    template: "%s | 静かな森",
+    default: "Shalilo",
+    template: "%s | Shalilo",
   },
   description:
-    "一个以 Next.js 15 为骨架搭建的个人博客毛坯房，专注安静的阅读体验与渐进式成长。",
+    "Shalilo's personal blog, built with Next.js 15 for a clean and calm reading experience.",
 };
 
 export default function RootLayout({
@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="zh-CN"
+      lang="en"
       suppressHydrationWarning
       className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >

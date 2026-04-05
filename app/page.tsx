@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
 import { getRecentPosts } from "@/lib/posts";
 
@@ -14,13 +14,14 @@ export default async function Home() {
           </p>
           <div className="space-y-4">
             <h1 className="font-display text-5xl leading-none tracking-tight text-balance sm:text-6xl">
-              在静かな森里，
+              This is Shalilo,
               <br />
-              慢慢搭一座自己的博客。
+              a personal blog that is still growing.
             </h1>
             <p className="max-w-2xl text-base leading-8 text-[var(--color-soft-text)] sm:text-lg">
-              这里是 Phase 1 的毛坯房版本。它已经可以发布 Markdown
-              文章、浏览文章列表、阅读详情页，并保持一个克制但不单调的深色阅读体验。
+              This is the Phase 1 version. It already supports Markdown posts,
+              a post archive, detail pages, and a calm dark-first reading
+              experience.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -28,30 +29,31 @@ export default async function Home() {
               href="/blog"
               className="inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-accent-foreground)] transition hover:translate-y-[-1px] hover:opacity-95"
             >
-              进入文章列表
+              Browse posts
             </Link>
             <Link
               href="/blog/hello-forest"
               className="inline-flex items-center justify-center rounded-full border border-[var(--color-border)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
             >
-              阅读示例文章
+              Read sample post
             </Link>
           </div>
         </div>
 
         <div className="grid gap-4">
           <div className="rounded-[1.5rem] border border-[var(--color-border)] bg-[var(--color-card)] p-5">
-            <p className="text-sm text-[var(--color-muted)]">当前状态</p>
-            <p className="mt-3 text-2xl font-semibold">Phase 1 毛坯房</p>
+            <p className="text-sm text-[var(--color-muted)]">Current status</p>
+            <p className="mt-3 text-2xl font-semibold">Phase 1 shell</p>
             <p className="mt-3 text-sm leading-7 text-[var(--color-soft-text)]">
-              Next.js 15 App Router、Tailwind CSS、文件系统 Markdown、基础深色主题。
+              Next.js 15 App Router, Tailwind CSS, filesystem Markdown, and a
+              simple theme toggle.
             </p>
           </div>
           <div className="rounded-[1.5rem] border border-[var(--color-border)] bg-[var(--color-card)] p-5">
-            <p className="text-sm text-[var(--color-muted)]">下一步装修方向</p>
+            <p className="text-sm text-[var(--color-muted)]">What comes next</p>
             <p className="mt-3 text-sm leading-7 text-[var(--color-soft-text)]">
-              文章元数据、目录、代码高亮、页面动效、阅读进度条和更接近 Innei
-              风格的排版系统。
+              Metadata, table of contents, syntax highlighting, better article
+              navigation, and stronger typography.
             </p>
           </div>
         </div>
@@ -63,13 +65,13 @@ export default async function Home() {
             <p className="text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]">
               Recent Posts
             </p>
-            <h2 className="font-display text-3xl tracking-tight">最近写下的东西</h2>
+            <h2 className="font-display text-3xl tracking-tight">Latest writing</h2>
           </div>
           <Link
             href="/blog"
             className="text-sm font-medium text-[var(--color-soft-text)] transition hover:text-[var(--color-accent)]"
           >
-            查看全部
+            View all
           </Link>
         </div>
         <div className="grid gap-5 lg:grid-cols-3">
