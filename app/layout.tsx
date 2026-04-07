@@ -3,12 +3,8 @@ import Script from "next/script";
 import { Manrope, Newsreader } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
-
-const siteUrl = "https://www.sha1ilo.com";
-const siteName = "Shalilo";
-const defaultDescription =
-  "Shalilo's personal blog, built with Next.js 15 for a clean and calm reading experience.";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -21,28 +17,28 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteName,
-    template: `%s | ${siteName}`,
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: defaultDescription,
-  applicationName: siteName,
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
-    url: siteUrl,
-    siteName,
-    title: siteName,
-    description: defaultDescription,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: siteName,
-    description: defaultDescription,
+    title: siteConfig.name,
+    description: siteConfig.description,
   },
   robots: {
     index: true,

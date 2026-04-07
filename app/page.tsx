@@ -1,6 +1,8 @@
 ﻿import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
+import { SiteUptime } from "@/components/site-uptime";
 import { getRecentPosts } from "@/lib/posts";
+import { siteConfig } from "@/lib/site";
 
 const quickLinks = [
   {
@@ -20,8 +22,21 @@ const quickLinks = [
   },
 ];
 
+const profileLinks = [
+  {
+    label: "GitHub",
+    description: "Code, experiments, and the public trail of this site.",
+    href: siteConfig.links.github,
+  },
+  {
+    label: "NetEase Music",
+    description: "What I loop while writing, reading, and polishing the blog.",
+    href: siteConfig.links.music,
+  },
+];
+
 const highlights = [
-  { label: "Current stage", value: "Phase 3" },
+  { label: "Current stage", value: "Identity pass" },
   { label: "Stack", value: "Next.js 15" },
   { label: "Mode", value: "Dark-first" },
 ];
@@ -43,15 +58,14 @@ export default async function Home() {
               Shalilo&apos;s corner on the web
             </p>
             <h1 className="hero-title max-w-4xl font-display text-balance text-[3.4rem] leading-[0.94] tracking-[-0.05em] sm:text-[4.8rem] xl:text-[6rem]">
-              A quieter blog
+              A personal site
               <br />
-              with sharper edges.
+              with more of me in it.
             </h1>
-            <p className="max-w-2xl text-base leading-8 text-[var(--color-soft-text)] sm:text-lg">
-              This site is no longer just a shell. It is turning into a personal
-              reading space for notes, posts, build logs, and the kind of small
-              details that make a website feel inhabited.
-            </p>
+            <div className="max-w-2xl space-y-4 text-base leading-8 text-[var(--color-soft-text)] sm:text-lg">
+              <p>{siteConfig.profile.role}</p>
+              <p>{siteConfig.profile.bio}</p>
+            </div>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -73,7 +87,7 @@ export default async function Home() {
         <div className="grid gap-5">
           <div className="glass-panel relative overflow-hidden rounded-[2rem] p-6">
             <div className="absolute right-5 top-5 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.34),transparent_68%)] blur-xl" />
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div className="flex items-center gap-4">
                 <div className="flex h-16 w-16 items-center justify-center rounded-[1.5rem] bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] font-display text-3xl text-[var(--color-accent-foreground)] shadow-[0_16px_40px_rgba(15,118,110,0.28)]">
                   S
@@ -91,6 +105,24 @@ export default async function Home() {
                 Less noise, fewer rushed additions, more pages that feel worth
                 returning to.
               </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[1.2rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-surface)_74%,transparent)] p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                    Site uptime
+                  </p>
+                  <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">
+                    <SiteUptime launchedAt={siteConfig.launchedAt} />
+                  </p>
+                </div>
+                <div className="rounded-[1.2rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-surface)_74%,transparent)] p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                    Started
+                  </p>
+                  <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">
+                    Apr 2026
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -106,6 +138,37 @@ export default async function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <p className="text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]">
+            Find me
+          </p>
+          <h2 className="font-display text-4xl tracking-tight">Personal links</h2>
+        </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          {profileLinks.map((item, index) => (
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="quick-card rounded-[1.8rem] border border-[var(--color-border)] bg-[var(--color-card)]/90 p-6 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
+              style={{ animationDelay: `${index * 120}ms` }}
+            >
+              <p className="text-xs uppercase tracking-[0.25em] text-[var(--color-muted)]">
+                External
+              </p>
+              <p className="mt-4 font-display text-3xl tracking-tight text-[var(--color-text)]">
+                {item.label}
+              </p>
+              <p className="mt-4 text-sm leading-7 text-[var(--color-soft-text)]">
+                {item.description}
+              </p>
+            </a>
+          ))}
         </div>
       </section>
 
@@ -154,4 +217,3 @@ export default async function Home() {
     </div>
   );
 }
-
