@@ -5,6 +5,11 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import "./globals.css";
 
+const siteUrl = "https://www.sha1ilo.com";
+const siteName = "Shalilo";
+const defaultDescription =
+  "Shalilo's personal blog, built with Next.js 15 for a clean and calm reading experience.";
+
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
@@ -16,12 +21,33 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Shalilo",
-    template: "%s | Shalilo",
+    default: siteName,
+    template: `%s | ${siteName}`,
   },
-  description:
-    "Shalilo's personal blog, built with Next.js 15 for a clean and calm reading experience.",
+  description: defaultDescription,
+  applicationName: siteName,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName,
+    title: siteName,
+    description: defaultDescription,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: defaultDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

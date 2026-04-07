@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --background: #f4f1eb;
@@ -151,7 +151,8 @@ a {
 .article-body pre {
   overflow-x: auto;
   border: 1px solid var(--color-border);
-  background: color-mix(in srgb, var(--color-card) 88%, transparent);
+  background: #0f172a;
+  color: #e2e8f0;
   border-radius: 1rem;
   padding: 1rem 1.1rem;
 }
@@ -160,6 +161,7 @@ a {
   border: 0;
   background: transparent;
   padding: 0;
+  color: inherit;
 }
 
 .article-body hr {
@@ -175,4 +177,38 @@ a {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.article-body h2[id],
+.article-body h3[id] {
+  scroll-margin-top: 6rem;
+}
+
+.article-body .hljs-keyword,
+.article-body .hljs-selector-tag,
+.article-body .hljs-literal {
+  color: #f472b6;
+}
+
+.article-body .hljs-string,
+.article-body .hljs-attr,
+.article-body .hljs-template-tag {
+  color: #86efac;
+}
+
+.article-body .hljs-title,
+.article-body .hljs-function,
+.article-body .hljs-title.function_ {
+  color: #7dd3fc;
+}
+
+.article-body .hljs-comment {
+  color: #64748b;
+}
+
+.article-body .hljs-number,
+.article-body .hljs-symbol,
+.article-body .hljs-variable,
+.article-body .hljs-params {
+  color: #fdba74;
 }

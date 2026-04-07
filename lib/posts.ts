@@ -1,8 +1,10 @@
 ﻿import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import rehypeHighlight from "rehype-highlight";
+import rehypeStringify from "rehype-stringify";
 import { remark } from "remark";
-import html from "remark-html";
+import remarkRehype from "remark-rehype";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
@@ -20,8 +22,15 @@ export type PostSummary = Omit<PostFrontmatter, "tags"> & {
   readingTime: string;
 };
 
+export type TocItem = {
+  id: string;
+  text: string;
+  level: 2 | 3;
+};
+
 export type Post = PostSummary & {
   contentHtml: string;
+  toc: TocItem[];
 };
 
 export type AdjacentPosts = {
@@ -48,13 +57,53 @@ async function readMarkdownFile(slug: string) {
 }
 
 function calculateReadingTime(content: string) {
-  const words = content.trim().split(/\s+/).filter(Boolean).length;
-  const minutes = Math.max(1, Math.ceil(words / 200));
+  const latinWords = content.trim().split(/\s+/).filter(Boolean).length;
+  const cjkChars = (content.match(/[\u4e00-\u9fff]/g) ?? []).length;
+  const units = latinWords + cjkChars;
+  const minutes = Math.max(1, Math.ceil(units / 350));
 
   return `${minutes} min read`;
 }
 
-function normalizeFrontmatter(frontmatter: PostFrontmatter, content: string): Omit<PostSummary, "slug"> {
+function slugifyHeading(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[\s]+/g, "-")
+    .replace(/[^\w\-\u4e00-\u9fff]/g, "")
+    .replace(/-+/g, "-");
+}
+
+function buildTableOfContents(contentHtml: string) {
+  const toc: TocItem[] = [];
+  const usedIds = new Map<string, number>();
+
+  const withAnchors = contentHtml.replace(
+    /<(h2|h3)>(.*?)<\/\1>/g,
+    (_, tag: string, inner: string) => {
+      const text = inner.replace(/<[^>]+>/g, "").trim();
+      const baseId = slugifyHeading(text) || "section";
+      const count = usedIds.get(baseId) ?? 0;
+      usedIds.set(baseId, count + 1);
+      const id = count === 0 ? baseId : `${baseId}-${count + 1}`;
+      const level = Number(tag.slice(1)) as 2 | 3;
+
+      toc.push({ id, text, level });
+
+      return `<${tag} id="${id}">${inner}</${tag}>`;
+    },
+  );
+
+  return {
+    contentHtml: withAnchors,
+    toc,
+  };
+}
+
+function normalizeFrontmatter(
+  frontmatter: PostFrontmatter,
+  content: string,
+): Omit<PostSummary, "slug"> {
   return {
     ...frontmatter,
     tags: frontmatter.tags ?? [],
@@ -95,12 +144,19 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       return null;
     }
 
-    const processedContent = await remark().use(html).process(content);
+    const processedContent = await remark()
+      .use(remarkRehype)
+      .use(rehypeHighlight)
+      .use(rehypeStringify)
+      .process(content);
+
+    const { contentHtml, toc } = buildTableOfContents(processedContent.toString());
 
     return {
       slug,
       ...normalizeFrontmatter(frontmatter, content),
-      contentHtml: processedContent.toString(),
+      contentHtml,
+      toc,
     };
   } catch {
     return null;

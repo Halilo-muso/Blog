@@ -33,4 +33,12 @@ Future phases can add:
 - syntax highlighting and image improvements
 - more refined motion and typography
 
+## A tiny code example
+
+```ts
+const phase = 2;
+const status = phase >= 2 ? "improving" : "starting";
+console.log(`The blog is ${status}.`);
+```
+
 The site is still minimal, but it is ready for writing.

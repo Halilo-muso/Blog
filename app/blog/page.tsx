@@ -2,9 +2,26 @@
 import { ArticleCard } from "@/components/article-card";
 import { getAllPosts } from "@/lib/posts";
 
+const pageTitle = "Blog";
+const pageDescription =
+  "All posts published on Shalilo, including notes, diary entries, and long-form writing.";
+
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "All posts published on Shalilo.",
+  title: pageTitle,
+  description: pageDescription,
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: `${pageTitle} | Shalilo`,
+    description: pageDescription,
+    url: "/blog",
+    type: "website",
+  },
+  twitter: {
+    title: `${pageTitle} | Shalilo`,
+    description: pageDescription,
+  },
 };
 
 export default async function BlogPage() {
