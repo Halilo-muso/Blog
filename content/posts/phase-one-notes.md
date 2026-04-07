@@ -1,31 +1,39 @@
----
-title: "Phase 1 搭建记录"
+﻿---
+title: "Phase 1 build notes"
 date: "2026-04-04"
-summary: "记录毛坯房博客的技术选型：Next.js 15、Tailwind CSS、文件系统 Markdown，以及为什么先不引入复杂后端。"
+summary: "A short record of the Phase 1 stack: Next.js 15, Tailwind CSS, filesystem Markdown, and why the project starts simple."
+tags:
+  - nextjs
+  - phase-1
 published: true
 ---
 
-这个阶段的目标很明确：**先可用，再精致**。
+This phase only has one goal: make the blog usable before trying to make it
+perfect.
 
-## 目前的技术选择
+## Current stack
 
-1. 使用 Next.js 15 的 App Router 作为页面骨架
-2. 使用 Tailwind CSS 负责样式组织
-3. 使用本地 Markdown 文件管理内容
-4. 使用 Vercel 作为后续部署平台
+1. Next.js 15 App Router for the page structure
+2. Tailwind CSS for styling
+3. Local Markdown files for content
+4. Vercel for deployment
 
-## 为什么不先上数据库
+## Why not start with a database
 
-因为现在的核心问题不是“内容存在哪里”，而是“能不能持续输出内容，并且让页面结构稳定下来”。
+Because the main question right now is not where content lives. The real
+question is whether the writing and publishing flow feels stable enough to use
+every week.
 
-对于个人博客来说，文件系统方案有几个很实际的优点：
+For a personal blog, a filesystem approach has a few clear advantages:
 
-- 易理解
-- 易备份
-- 易迁移
+- easy to understand
+- easy to back up
+- easy to migrate later
 
-## 一个很重要的边界
+## The important boundary
 
-这个版本故意不做太多“装修”。
+This version is intentionally simple.
 
-等你确认写作、部署、更新文章这条路径顺手之后，再进入下一阶段，会比现在同时处理视觉、动画、后端和内容系统更稳。
+Once writing, updating, and publishing feel natural, it becomes much easier to
+move into better typography, richer metadata, code highlighting, or even a more
+complex backend.

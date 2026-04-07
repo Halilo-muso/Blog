@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+﻿import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { remark } from "remark";
@@ -10,15 +10,23 @@ type PostFrontmatter = {
   title: string;
   date: string;
   summary: string;
+  tags?: string[];
   published?: boolean;
 };
 
-export type PostSummary = PostFrontmatter & {
+export type PostSummary = Omit<PostFrontmatter, "tags"> & {
   slug: string;
+  tags: string[];
+  readingTime: string;
 };
 
 export type Post = PostSummary & {
   contentHtml: string;
+};
+
+export type AdjacentPosts = {
+  previous: PostSummary | null;
+  next: PostSummary | null;
 };
 
 function sortPosts(posts: PostSummary[]) {
@@ -39,6 +47,21 @@ async function readMarkdownFile(slug: string) {
   };
 }
 
+function calculateReadingTime(content: string) {
+  const words = content.trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.ceil(words / 200));
+
+  return `${minutes} min read`;
+}
+
+function normalizeFrontmatter(frontmatter: PostFrontmatter, content: string): Omit<PostSummary, "slug"> {
+  return {
+    ...frontmatter,
+    tags: frontmatter.tags ?? [],
+    readingTime: calculateReadingTime(content),
+  };
+}
+
 export async function getAllPosts(): Promise<PostSummary[]> {
   const fileNames = await fs.readdir(postsDirectory);
 
@@ -47,11 +70,11 @@ export async function getAllPosts(): Promise<PostSummary[]> {
       .filter((fileName) => fileName.endsWith(".md"))
       .map(async (fileName) => {
         const slug = fileName.replace(/\.md$/, "");
-        const { frontmatter } = await readMarkdownFile(slug);
+        const { frontmatter, content } = await readMarkdownFile(slug);
 
         return {
           slug,
-          ...frontmatter,
+          ...normalizeFrontmatter(frontmatter, content),
         };
       }),
   );
@@ -76,7 +99,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
     return {
       slug,
-      ...frontmatter,
+      ...normalizeFrontmatter(frontmatter, content),
       contentHtml: processedContent.toString(),
     };
   } catch {
@@ -84,8 +107,25 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 }
 
+export async function getAdjacentPosts(slug: string): Promise<AdjacentPosts> {
+  const posts = await getAllPosts();
+  const index = posts.findIndex((post) => post.slug === slug);
+
+  if (index === -1) {
+    return {
+      previous: null,
+      next: null,
+    };
+  }
+
+  return {
+    previous: posts[index + 1] ?? null,
+    next: posts[index - 1] ?? null,
+  };
+}
+
 export function formatDate(date: string) {
-  return new Intl.DateTimeFormat("zh-CN", {
+  return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",

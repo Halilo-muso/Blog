@@ -18,8 +18,8 @@ export default async function BlogPage() {
         </p>
         <h1 className="font-display text-5xl tracking-tight">Blog posts</h1>
         <p className="max-w-2xl text-base leading-8 text-[var(--color-soft-text)]">
-          This archive contains every published post. Phase 1 uses filesystem
-          Markdown, which keeps writing simple and the site easy to maintain.
+          This archive contains every published post. Phase 2 expands the
+          reading experience with richer metadata and better post navigation.
         </p>
       </section>
 

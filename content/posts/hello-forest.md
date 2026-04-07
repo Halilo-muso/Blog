@@ -2,6 +2,9 @@
 title: "Hello, Shalilo"
 date: "2026-04-05"
 summary: "The first sample post for the blog, used to verify Markdown loading, routing, and reading pages."
+tags:
+  - setup
+  - writing
 published: true
 ---
 
