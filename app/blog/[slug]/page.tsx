@@ -78,6 +78,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const { previous, next } = await getAdjacentPosts(slug);
   const hasTocSidebar = post.toc.length >= 3;
+  const categoryLabel = dictionary.blog.categories[post.category];
 
   return (
     <div className="space-y-6">
@@ -102,7 +103,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               <div className="space-y-4">
                 <p className="text-[0.7rem] uppercase tracking-[0.34em] text-[var(--color-muted)]">
-                  {dictionary.post.section}
+                  {categoryLabel}
                 </p>
                 <h1 className="font-display text-5xl leading-[0.96] tracking-[-0.05em] text-balance xl:text-6xl">
                   {post.title}

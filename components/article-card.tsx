@@ -13,6 +13,7 @@ type ArticleCardProps = {
 
 export function ArticleCard({ post, locale }: ArticleCardProps) {
   const dictionary = getDictionary(locale);
+  const categoryLabel = dictionary.blog.categories[post.category];
 
   return (
     <Link
@@ -21,6 +22,9 @@ export function ArticleCard({ post, locale }: ArticleCardProps) {
     >
       <div className="flex flex-1 flex-col">
         <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
+          <span className="rounded-full border border-[var(--color-border)] px-2.5 py-1 text-[0.68rem]">
+            {categoryLabel}
+          </span>
           <span>{formatDate(post.date, locale)}</span>
           <span>{formatReadingTime(post.readingMinutes, locale)}</span>
         </div>

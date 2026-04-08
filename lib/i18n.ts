@@ -86,12 +86,19 @@ export const dictionaries = {
       eyebrow: "Archive",
       title: "Blog posts",
       description:
-        "This archive contains every published post. Phase 2 expands the reading experience with richer metadata and better post navigation.",
+        "This archive contains every published post, grouped by category for a clearer browsing flow.",
       continueReading: "Continue reading",
+      categoryOverview: "Browse by category",
+      emptyCategory: "No posts in this category yet.",
+      categories: {
+        tech: "Tech",
+        daily: "Daily",
+        music: "Music",
+        misc: "Misc",
+      },
     },
     post: {
       back: "Back to all posts",
-      section: "Journal",
       newer: "Newer post",
       older: "Older post",
       toc: "On this page",
@@ -173,13 +180,19 @@ export const dictionaries = {
     blog: {
       eyebrow: "归档",
       title: "Blog",
-      description:
-        "这里收录所有已发布的文章，包括随笔、日记与较长篇幅的写作。",
+      description: "这里收录所有已发布的文章，并按分类整理，方便继续浏览。",
       continueReading: "继续阅读",
+      categoryOverview: "按分类浏览",
+      emptyCategory: "这个分类暂时还没有文章。",
+      categories: {
+        tech: "技术",
+        daily: "日常",
+        music: "音乐",
+        misc: "杂项",
+      },
     },
     post: {
       back: "返回全部文章",
-      section: "日志",
       newer: "较新的文章",
       older: "较早的文章",
       toc: "本页目录",
@@ -261,13 +274,19 @@ export const dictionaries = {
     blog: {
       eyebrow: "歸檔",
       title: "Blog",
-      description:
-        "這裡收錄所有已發佈的文章，包括隨筆、日記與較長篇幅的寫作。",
+      description: "這裡收錄所有已發佈的文章，並按分類整理，方便繼續瀏覽。",
       continueReading: "繼續閱讀",
+      categoryOverview: "按分類瀏覽",
+      emptyCategory: "這個分類暫時還沒有文章。",
+      categories: {
+        tech: "技術",
+        daily: "日常",
+        music: "音樂",
+        misc: "雜項",
+      },
     },
     post: {
       back: "返回全部文章",
-      section: "日誌",
       newer: "較新的文章",
       older: "較早的文章",
       toc: "本頁目錄",
@@ -298,6 +317,3 @@ export function getDateLocale(locale: SiteLocale) {
 
   return locale;
 }
-
-
-

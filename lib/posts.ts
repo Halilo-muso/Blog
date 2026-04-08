@@ -9,16 +9,22 @@ import { getDateLocale, getDictionary, type SiteLocale } from "@/lib/i18n";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
+export const postCategories = ["tech", "daily", "music", "misc"] as const;
+
+export type PostCategory = (typeof postCategories)[number];
+
 type PostFrontmatter = {
   title: string;
   date: string;
   summary: string;
+  category?: string;
   tags?: string[];
   published?: boolean;
 };
 
-export type PostSummary = Omit<PostFrontmatter, "tags"> & {
+export type PostSummary = Omit<PostFrontmatter, "tags" | "category"> & {
   slug: string;
+  category: PostCategory;
   tags: string[];
   readingMinutes: number;
 };
@@ -37,6 +43,11 @@ export type Post = PostSummary & {
 export type AdjacentPosts = {
   previous: PostSummary | null;
   next: PostSummary | null;
+};
+
+export type GroupedPosts = {
+  category: PostCategory;
+  posts: PostSummary[];
 };
 
 function sortPosts(posts: PostSummary[]) {
@@ -100,12 +111,21 @@ function buildTableOfContents(contentHtml: string) {
   };
 }
 
+function normalizeCategory(category?: string): PostCategory {
+  if (category && postCategories.includes(category as PostCategory)) {
+    return category as PostCategory;
+  }
+
+  return "misc";
+}
+
 function normalizeFrontmatter(
   frontmatter: PostFrontmatter,
   content: string,
 ): Omit<PostSummary, "slug"> {
   return {
     ...frontmatter,
+    category: normalizeCategory(frontmatter.category),
     tags: frontmatter.tags ?? [],
     readingMinutes: calculateReadingMinutes(content),
   };
@@ -129,6 +149,15 @@ export async function getAllPosts(): Promise<PostSummary[]> {
   );
 
   return sortPosts(posts).filter((post) => post.published !== false);
+}
+
+export async function getPostsByCategory(): Promise<GroupedPosts[]> {
+  const posts = await getAllPosts();
+
+  return postCategories.map((category) => ({
+    category,
+    posts: posts.filter((post) => post.category === category),
+  }));
 }
 
 export async function getRecentPosts(limit = 3) {
@@ -190,10 +219,6 @@ export function formatDate(date: string, locale: SiteLocale) {
 
 export function formatReadingTime(minutes: number, locale: SiteLocale) {
   const dictionary = getDictionary(locale);
-
-  if (locale === "en") {
-    return `${minutes} ${dictionary.common.minuteRead}`;
-  }
 
   return `${minutes} ${dictionary.common.minuteRead}`;
 }
