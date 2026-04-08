@@ -24,6 +24,7 @@ export const dictionaries = {
     footer: {
       line: "Shalilo · Built slowly, shipped deliberately.",
       stack: "Next.js 15 · Tailwind CSS · Markdown · RSS",
+      uptimeLabel: "Online for",
     },
     home: {
       badge: "Personal system in progress",
@@ -111,6 +112,7 @@ export const dictionaries = {
     footer: {
       line: "Shalilo · 慢慢搭建，认真发布。",
       stack: "Next.js 15 · Tailwind CSS · Markdown · RSS",
+      uptimeLabel: "已运行",
     },
     home: {
       badge: "个人站点持续构建中",
@@ -197,6 +199,7 @@ export const dictionaries = {
     footer: {
       line: "Shalilo · 慢慢建造，審慎發佈。",
       stack: "Next.js 15 · Tailwind CSS · Markdown · RSS",
+      uptimeLabel: "已運行",
     },
     home: {
       badge: "個人站點持續建構中",

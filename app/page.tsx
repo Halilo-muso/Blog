@@ -1,6 +1,5 @@
 ﻿import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
-import { SiteUptime } from "@/components/site-uptime";
 import { getDictionary } from "@/lib/i18n";
 import { getPreferredLocale } from "@/lib/locale";
 import { getRecentPosts } from "@/lib/posts";
@@ -114,7 +113,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="grid gap-5">
+        <div>
           <div className="glass-panel relative overflow-hidden rounded-[2rem] p-6">
             <div className="absolute right-5 top-5 h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.34),transparent_68%)] blur-xl" />
             <div className="space-y-5">
@@ -134,38 +133,23 @@ export default async function Home() {
               <p className="max-w-md text-sm leading-7 text-[var(--color-soft-text)]">
                 {dictionary.home.statusDescription}
               </p>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[1.2rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-surface)_74%,transparent)] p-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                    {dictionary.home.siteUptime}
-                  </p>
-                  <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">
-                    <SiteUptime launchedAt={siteConfig.launchedAt} locale={locale} />
-                  </p>
-                </div>
-                <div className="rounded-[1.2rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-surface)_74%,transparent)] p-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                    {dictionary.home.started}
-                  </p>
-                  <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">
-                    {dictionary.home.startedValue}
-                  </p>
-                </div>
+              <div className="rounded-[1.2rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-surface)_74%,transparent)] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                  {dictionary.home.started}
+                </p>
+                <p className="mt-2 text-2xl font-semibold tracking-tight text-[var(--color-text)]">
+                  {dictionary.home.startedValue}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[var(--color-border)] pt-4 text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                {dictionary.home.highlights.map((item, index) => (
+                  <div key={item.label} className="flex items-center gap-3">
+                    {index > 0 ? <span className="h-1 w-1 rounded-full bg-[var(--color-border)]" /> : null}
+                    <span>{item.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-1">
-            {dictionary.home.highlights.map((item) => (
-              <div key={item.label} className="glass-panel rounded-[1.6rem] p-5">
-                <p className="text-xs uppercase tracking-[0.22em] text-[var(--color-muted)]">
-                  {item.label}
-                </p>
-                <p className="mt-3 text-2xl font-semibold tracking-tight text-[var(--color-text)]">
-                  {item.value}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
