@@ -6,6 +6,43 @@ import { getPreferredLocale } from "@/lib/locale";
 import { getRecentPosts } from "@/lib/posts";
 import { siteConfig } from "@/lib/site";
 
+function GitHubIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-5 w-5">
+      <path d="M12 2C6.48 2 2 6.58 2 12.24c0 4.52 2.87 8.35 6.84 9.71.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.91-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .08 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.15-4.56-5.12 0-1.13.39-2.05 1.03-2.78-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.06A9.3 9.3 0 0 1 12 6.9c.85 0 1.71.12 2.51.35 1.91-1.34 2.75-1.06 2.75-1.06.55 1.42.2 2.47.1 2.73.64.73 1.03 1.65 1.03 2.78 0 3.98-2.34 4.86-4.57 5.11.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.59.69.49A10.27 10.27 0 0 0 22 12.24C22 6.58 17.52 2 12 2Z" />
+    </svg>
+  );
+}
+
+function MusicIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-5 w-5">
+      <path
+        d="M18.5 5.5v8.75a2.75 2.75 0 1 1-1.5-2.45V8.48l-7 1.56v6.21a2.75 2.75 0 1 1-1.5-2.45V6.84c0-.7.49-1.31 1.18-1.46l7-1.56A1.5 1.5 0 0 1 18.5 5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+const socialLinks = [
+  {
+    key: "github",
+    href: siteConfig.links.github,
+    label: "GitHub",
+    icon: GitHubIcon,
+  },
+  {
+    key: "music",
+    href: siteConfig.links.music,
+    label: "NetEase Music",
+    icon: MusicIcon,
+  },
+] as const;
+
 export default async function Home() {
   const locale = await getPreferredLocale();
   const dictionary = getDictionary(locale);
@@ -35,19 +72,45 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/blog"
-              className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-6 py-3 text-sm font-semibold text-[var(--color-accent-foreground)] shadow-[0_12px_30px_rgba(15,118,110,0.24)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,118,110,0.35)]"
-            >
-              {dictionary.home.primaryCta}
-            </Link>
-            <Link
-              href="/feed.xml"
-              className="inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_85%,transparent)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-            >
-              {dictionary.home.secondaryCta}
-            </Link>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/blog"
+                className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--color-accent),var(--color-accent-strong))] px-6 py-3 text-sm font-semibold text-[var(--color-accent-foreground)] shadow-[0_12px_30px_rgba(15,118,110,0.24)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(15,118,110,0.35)]"
+              >
+                {dictionary.home.primaryCta}
+              </Link>
+              <Link
+                href="/feed.xml"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_85%,transparent)] px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+              >
+                {dictionary.home.secondaryCta}
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-3 text-[var(--color-muted)]">
+              <span className="text-xs uppercase tracking-[0.28em]">{dictionary.home.linksEyebrow}</span>
+              <div className="h-px w-10 bg-[var(--color-border)]" />
+              <div className="flex items-center gap-2">
+                {socialLinks.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <a
+                      key={item.key}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={item.label}
+                      title={item.label}
+                      className="group inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_82%,transparent)] text-[var(--color-soft-text)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:text-[var(--color-text)]"
+                    >
+                      <Icon />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -107,37 +170,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <div className="space-y-2">
-          <p className="text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]">
-            {dictionary.home.linksEyebrow}
-          </p>
-          <h2 className="font-display text-4xl tracking-tight">{dictionary.home.linksTitle}</h2>
-        </div>
-        <div className="grid gap-5 md:grid-cols-2">
-          {dictionary.home.profileLinks.map((item, index) => (
-            <a
-              key={item.label}
-              href={siteConfig.links[item.href]}
-              target="_blank"
-              rel="noreferrer"
-              className="quick-card rounded-[1.8rem] border border-[var(--color-border)] bg-[var(--color-card)]/90 p-6 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
-              style={{ animationDelay: `${index * 120}ms` }}
-            >
-              <p className="text-xs uppercase tracking-[0.25em] text-[var(--color-muted)]">
-                {dictionary.home.externalLabel}
-              </p>
-              <p className="mt-4 font-display text-3xl tracking-tight text-[var(--color-text)]">
-                {item.label}
-              </p>
-              <p className="mt-4 text-sm leading-7 text-[var(--color-soft-text)]">
-                {item.description}
-              </p>
-            </a>
-          ))}
-        </div>
-      </section>
-
       <section className="grid gap-5 lg:grid-cols-3">
         {dictionary.home.quickLinks.map((item, index) => (
           <Link
@@ -183,6 +215,3 @@ export default async function Home() {
     </div>
   );
 }
-
-
-
