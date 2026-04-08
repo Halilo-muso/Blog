@@ -75,11 +75,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const { previous, next } = await getAdjacentPosts(slug);
+  const hasTocSidebar = post.toc.length >= 3;
 
   return (
     <div className="space-y-6">
       <ReadingProgress />
-      <article className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start">
+      <article
+        className={`mx-auto w-full gap-10 ${
+          hasTocSidebar
+            ? "grid max-w-6xl lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start"
+            : "max-w-4xl"
+        }`}
+      >
         <div className="min-w-0 space-y-10">
           <div className="space-y-5 border-b border-[var(--color-border)] pb-8">
             <Link
@@ -158,7 +165,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           ) : null}
         </div>
 
-        {post.toc.length > 0 ? (
+        {hasTocSidebar ? (
           <aside className="hidden lg:block lg:sticky lg:top-28">
             <div className="rounded-[1.25rem] border border-[var(--color-border)] bg-[var(--color-card)]/92 p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)] backdrop-blur">
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
@@ -184,5 +191,3 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     </div>
   );
 }
-
-
