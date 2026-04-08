@@ -1,6 +1,8 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BackToTopButton } from "@/components/back-to-top-button";
+import { PostTableOfContents } from "@/components/post-table-of-contents";
 import { ReadingProgress } from "@/components/reading-progress";
 import { getDictionary } from "@/lib/i18n";
 import { getPreferredLocale } from "@/lib/locale";
@@ -176,27 +178,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {hasTocSidebar ? (
           <aside className="hidden lg:block lg:sticky lg:top-28">
-            <div className="rounded-[1.4rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_80%,transparent)] p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)] backdrop-blur">
-              <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-                {dictionary.post.toc}
-              </p>
-              <nav className="mt-4 flex flex-col gap-3 text-sm leading-6 text-[var(--color-soft-text)]">
-                {post.toc.map((item) => (
-                  <a
-                    key={item.id}
-                    href={`#${item.id}`}
-                    className={`border-l border-transparent pl-0 transition hover:border-[var(--color-accent)] hover:pl-2 hover:text-[var(--color-accent)] ${
-                      item.level === 3 ? "ml-3" : ""
-                    }`}
-                  >
-                    {item.text}
-                  </a>
-                ))}
-              </nav>
-            </div>
+            <PostTableOfContents items={post.toc} title={dictionary.post.toc} />
           </aside>
         ) : null}
       </article>
+      <BackToTopButton label={dictionary.post.backToTop} />
     </div>
   );
 }

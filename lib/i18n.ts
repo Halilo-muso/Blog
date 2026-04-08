@@ -95,6 +95,7 @@ export const dictionaries = {
       newer: "Newer post",
       older: "Older post",
       toc: "On this page",
+      backToTop: "Top",
     },
     common: {
       minuteRead: "min read",
@@ -182,6 +183,7 @@ export const dictionaries = {
       newer: "较新的文章",
       older: "较早的文章",
       toc: "本页目录",
+      backToTop: "回到顶部",
     },
     common: {
       minuteRead: "分钟阅读",
@@ -269,6 +271,7 @@ export const dictionaries = {
       newer: "較新的文章",
       older: "較早的文章",
       toc: "本頁目錄",
+      backToTop: "回到頂部",
     },
     common: {
       minuteRead: "分鐘閱讀",
@@ -295,4 +298,6 @@ export function getDateLocale(locale: SiteLocale) {
 
   return locale;
 }
+
+
 
