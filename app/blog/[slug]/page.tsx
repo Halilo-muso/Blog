@@ -87,7 +87,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <article
         className={`mx-auto w-full gap-12 ${
           hasTocSidebar
-            ? "grid max-w-6xl lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start"
+            ? "grid max-w-6xl lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start"
             : "max-w-[54rem]"
         }`}
       >
@@ -162,30 +162,54 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {next ? (
                 <Link
                   href={`/blog/${next.slug}`}
-                  className="rounded-[1.5rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_78%,transparent)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
+                  className="group rounded-[1.7rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_78%,transparent)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
                 >
-                  <p className="text-[0.68rem] uppercase tracking-[0.26em] text-[var(--color-muted)]">
-                    {dictionary.post.newer}
-                  </p>
-                  <p className="mt-4 font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
-                    {next.title}
-                  </p>
+                  <div className="flex h-full flex-col justify-between gap-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-4">
+                        <p className="text-[0.68rem] uppercase tracking-[0.26em] text-[var(--color-muted)]">
+                          {dictionary.post.newer}
+                        </p>
+                        <span className="text-lg text-[var(--color-muted)] transition duration-300 group-hover:translate-x-1 group-hover:text-[var(--color-text)]">
+                          →
+                        </span>
+                      </div>
+                      <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
+                        {next.title}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3 text-[0.7rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
+                      <span>{formatDate(next.date, locale)}</span>
+                      <span>{dictionary.blog.categories[next.category]}</span>
+                    </div>
+                  </div>
                 </Link>
-              ) : (
-                <div />
-              )}
+              ) : null}
 
               {previous ? (
                 <Link
                   href={`/blog/${previous.slug}`}
-                  className="rounded-[1.5rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_78%,transparent)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
+                  className="group rounded-[1.7rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_78%,transparent)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
                 >
-                  <p className="text-[0.68rem] uppercase tracking-[0.26em] text-[var(--color-muted)]">
-                    {dictionary.post.older}
-                  </p>
-                  <p className="mt-4 font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
-                    {previous.title}
-                  </p>
+                  <div className="flex h-full flex-col justify-between gap-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-4">
+                        <p className="text-[0.68rem] uppercase tracking-[0.26em] text-[var(--color-muted)]">
+                          {dictionary.post.older}
+                        </p>
+                        <span className="text-lg text-[var(--color-muted)] transition duration-300 group-hover:-translate-x-1 group-hover:text-[var(--color-text)]">
+                          ←
+                        </span>
+                      </div>
+                      <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
+                        {previous.title}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3 text-[0.7rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
+                      <span>{formatDate(previous.date, locale)}</span>
+                      <span>{dictionary.blog.categories[previous.category]}</span>
+                    </div>
+                  </div>
                 </Link>
               ) : null}
             </nav>

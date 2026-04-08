@@ -7,28 +7,31 @@
 - `Changed` = 调整/优化已有功能
 - `Removed` = 删除功能
 
+## 2026-04-09
+
+### Article Reading Experience
+- `Changed`: 右侧目录区改成更清晰的卡片式导航，当前章节高亮更明显。
+- `Changed`: 文末上一篇 / 下一篇卡片补充日期与分类信息，阅读结束后的跳转更自然。
+
 ## 2026-04-08
 
-### Current
-
-#### Article Reading Experience
+### Article Reading Experience
 - `Added`: 移动端文章目录入口，手机上可以展开查看当前文章的章节导航。
 - `Changed`: 文章正文增加独立阅读容器，正文、引用块、代码块的排版节奏更适合长时间阅读。
 
-#### Project Workflow
+### Project Workflow
 - `Added`: 建立这份 [blog-feature-history.md](/D:/code/blog/docs/blog-feature-history.md) 作为持续维护的功能演进日志。
+- `Changed`: 调整 `.gitignore`，只跟踪这份公开的功能演进文档，不跟踪整个 `docs` 目录。
 
-### Earlier Today
-
-#### Homepage Identity
+### Homepage Identity
 - `Changed`: 首页主文案调整为“前端学习者 / 写作者 / 建设者”的表达，身份感更明确。
 - `Changed`: 首页右侧个人信息卡从过重版本收回到更轻的陪衬结构，避免抢走 Hero 的视觉重心。
 
-#### Header
+### Header
 - `Changed`: 顶部导航改为更安静的样式，减少胶囊感和厚重按钮感。
 - `Changed`: 语言切换和主题切换改成更克制的表现方式。
 
-#### Homepage Profile Card
+### Homepage Profile Card
 - `Added`: 首页接入个人头像，头像来源改为 `public/shalilo.jpg`。
 - `Changed`: 头像尺寸、圆角、边框和阴影被重新设计，更像个人名片的一部分。
 - `Changed`: GitHub / 网易云入口恢复为带图标的轻量链接样式。

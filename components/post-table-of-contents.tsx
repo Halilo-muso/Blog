@@ -52,16 +52,25 @@ export function PostTableOfContents({
 
   return (
     <div
-      className={`rounded-[1.4rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_80%,transparent)] backdrop-blur ${
-        compact ? "p-4 shadow-none" : "p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)]"
+      className={`rounded-[1.4rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_82%,transparent)] backdrop-blur ${
+        compact
+          ? "p-4 shadow-none"
+          : "p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)]"
       }`}
     >
-      <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-        {title}
-      </p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+          {title}
+        </p>
+        {!compact ? (
+          <span className="rounded-full border border-[var(--color-border)] px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.2em] text-[var(--color-muted)]">
+            {items.length}
+          </span>
+        ) : null}
+      </div>
       <nav
         className={`mt-4 flex flex-col text-sm leading-6 text-[var(--color-soft-text)] ${
-          compact ? "gap-2" : "gap-3"
+          compact ? "gap-2" : "gap-2.5"
         }`}
       >
         {items.map((item) => {
@@ -71,10 +80,10 @@ export function PostTableOfContents({
             <a
               key={item.id}
               href={`#${item.id}`}
-              className={`border-l pl-0 transition ${
+              className={`rounded-xl border px-3 py-2 transition duration-300 ${
                 isActive
-                  ? "border-[var(--color-accent)] pl-2 text-[var(--color-text)]"
-                  : "border-transparent hover:border-[var(--color-accent)] hover:pl-2 hover:text-[var(--color-accent)]"
+                  ? "border-[color:color-mix(in_srgb,var(--color-accent)_45%,var(--color-border))] bg-[color:color-mix(in_srgb,var(--color-accent)_10%,var(--color-card))] text-[var(--color-text)]"
+                  : "border-transparent text-[var(--color-soft-text)] hover:border-[var(--color-border)] hover:bg-[color:color-mix(in_srgb,var(--color-card)_72%,transparent)] hover:text-[var(--color-text)]"
               } ${item.level === 3 ? (compact ? "ml-2" : "ml-3") : ""}`}
             >
               {item.text}
