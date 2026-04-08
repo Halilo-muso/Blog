@@ -11,7 +11,7 @@
 
 ### Article Reading Experience
 - `Changed`: 右侧目录区改成更清晰的卡片式导航，当前章节高亮更明显。
-- `Changed`: 文末上一篇 / 下一篇卡片补充日期与分类信息，阅读结束后的跳转更自然。
+- `Changed`: 文末上一篇 / 下一篇卡片补充日期与分类信息，阅读结束后的跳转更自然。`r`n- `Changed`: 代码块增加语言头部和更清晰的容器样式，代码内容更像成品阅读组件。
 
 ## 2026-04-08
 
@@ -48,3 +48,4 @@
 - `be763e9` `feat: add post category structure`
 - `66dfaf6` `feat: add active toc and back-to-top`
 - `9061b37` `refactor: refine post reading experience`
+

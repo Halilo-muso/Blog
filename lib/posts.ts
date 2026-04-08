@@ -111,6 +111,42 @@ function buildTableOfContents(contentHtml: string) {
   };
 }
 
+const codeLanguageLabels: Record<string, string> = {
+  bash: "Bash",
+  css: "CSS",
+  html: "HTML",
+  javascript: "JavaScript",
+  js: "JavaScript",
+  json: "JSON",
+  markdown: "Markdown",
+  md: "Markdown",
+  plaintext: "Text",
+  shell: "Shell",
+  sh: "Shell",
+  ts: "TypeScript",
+  tsx: "TSX",
+  txt: "Text",
+  yaml: "YAML",
+  yml: "YAML",
+};
+
+function formatCodeLanguage(language?: string) {
+  if (!language) {
+    return "Code";
+  }
+
+  const normalized = language.toLowerCase();
+  return codeLanguageLabels[normalized] ?? normalized.toUpperCase();
+}
+
+function enhanceCodeBlocks(contentHtml: string) {
+  return contentHtml.replace(/<pre>([\s\S]*?)<\/pre>/g, (block) => {
+    const languageMatch = block.match(/language-([\w-]+)/);
+    const languageLabel = formatCodeLanguage(languageMatch?.[1]);
+
+    return `<div class="article-code-block"><div class="article-code-header"><span class="article-code-dot" aria-hidden="true"></span><span class="article-code-language">${languageLabel}</span></div>${block}</div>`;
+  });
+}
 export function isPostCategory(category?: string): category is PostCategory {
   return postCategories.some((item) => item === category);
 }
@@ -189,11 +225,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       .process(content);
 
     const { contentHtml, toc } = buildTableOfContents(processedContent.toString());
+    const enhancedContentHtml = enhanceCodeBlocks(contentHtml);
 
     return {
       slug,
       ...normalizeFrontmatter(frontmatter, content),
-      contentHtml,
+      contentHtml: enhancedContentHtml,
       toc,
     };
   } catch {
@@ -231,3 +268,5 @@ export function formatReadingTime(minutes: number, locale: SiteLocale) {
 
   return `${minutes} ${dictionary.common.minuteRead}`;
 }
+
+
