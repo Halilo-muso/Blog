@@ -69,12 +69,12 @@ export const dictionaries = {
         {
           title: "Now",
           description: "Currently refining the blog, writing more, and learning in public.",
-          href: "/blog/diary",
+          href: "/blog/2026-04-07-diary",
         },
         {
           title: "Direction",
           description: "Aiming for a quieter, sharper, more personal reading experience.",
-          href: "/blog/hello-forest",
+          href: "/blog/hello-shalilo",
         },
       ],
       recentEyebrow: "Recent posts",
@@ -156,12 +156,12 @@ export const dictionaries = {
         {
           title: "近况",
           description: "最近在继续优化网站、写更多内容，也在公开学习。",
-          href: "/blog/diary",
+          href: "/blog/2026-04-07-diary",
         },
         {
           title: "方向",
           description: "目标是做出一个更安静、更锋利、更个人化的阅读空间。",
-          href: "/blog/hello-forest",
+          href: "/blog/hello-shalilo",
         },
       ],
       recentEyebrow: "最近文章",
@@ -243,12 +243,12 @@ export const dictionaries = {
         {
           title: "近況",
           description: "最近在持續優化網站、寫更多內容，也在公開學習。",
-          href: "/blog/diary",
+          href: "/blog/2026-04-07-diary",
         },
         {
           title: "方向",
           description: "目標是做出一個更安靜、更銳利、更個人化的閱讀空間。",
-          href: "/blog/hello-forest",
+          href: "/blog/hello-shalilo",
         },
       ],
       recentEyebrow: "最近文章",
@@ -295,3 +295,4 @@ export function getDateLocale(locale: SiteLocale) {
 
   return locale;
 }
+
