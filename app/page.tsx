@@ -96,6 +96,7 @@ export default async function Home() {
     dictionary.home.statusValue,
   );
   const avatar = siteConfig.profile.avatar.trim();
+  const siteLabel = siteConfig.url.replace(/^https?:\/\//, "");
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-18 pb-12 lg:gap-24">
@@ -122,7 +123,7 @@ export default async function Home() {
           </div>
 
           <aside className="home-quiet-panel rounded-[2rem] p-6">
-            <div className="space-y-5">
+            <div className="space-y-6">
               <div className="home-avatar-frame">
                 {avatar ? (
                   <Image
@@ -139,18 +140,52 @@ export default async function Home() {
                   </div>
                 )}
               </div>
-              <div className="space-y-2">
-                <p className="font-display text-3xl tracking-[-0.05em] text-[var(--color-text)]">
+              <div className="space-y-3">
+                <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
                   {siteConfig.profile.displayName}
+                </p>
+                <p className="font-display text-[2rem] leading-[1.02] tracking-[-0.05em] text-[var(--color-text)]">
+                  {siteConfig.profile.role}
+                </p>
+                <p className="text-sm leading-7 text-[var(--color-soft-text)]">
+                  {siteConfig.profile.bio}
+                </p>
+              </div>
+              <div className="space-y-2 border-t border-[var(--color-border)] pt-4">
+                <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+                  {dictionary.home.statusLabel}
+                </p>
+                <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
+                  {dictionary.home.statusValue}
                 </p>
                 <p className="text-sm leading-7 text-[var(--color-soft-text)]">
                   {dictionary.home.statusDescription}
                 </p>
               </div>
-              <div className="space-y-2 border-t border-[var(--color-border)] pt-4 text-sm text-[var(--color-soft-text)]">
-                <p>{siteConfig.profile.role}</p>
-                <p>
-                  {dictionary.home.started}: {dictionary.home.startedValue}
+              <div className="grid gap-3 border-t border-[var(--color-border)] pt-4 sm:grid-cols-2 lg:grid-cols-1">
+                <div className="space-y-1.5">
+                  <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+                    {dictionary.home.started}
+                  </p>
+                  <p className="text-sm leading-6 text-[var(--color-text)]">
+                    {dictionary.home.startedValue}
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
+                    {dictionary.home.linksEyebrow}
+                  </p>
+                  <p className="text-sm leading-6 text-[var(--color-text)]">
+                    GitHub / NetEase
+                  </p>
+                </div>
+              </div>
+              <div className="border-t border-[var(--color-border)] pt-4">
+                <p className="font-display text-2xl tracking-[-0.05em] text-[var(--color-text)]">
+                  {siteLabel}
+                </p>
+                <p className="mt-2 text-sm leading-7 text-[var(--color-soft-text)]">
+                  {dictionary.home.title[0]} {dictionary.home.title[1]}
                 </p>
               </div>
             </div>

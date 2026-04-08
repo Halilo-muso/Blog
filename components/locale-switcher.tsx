@@ -31,7 +31,7 @@ export function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_82%,transparent)] p-1">
+    <div className="flex items-center gap-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
       {locales.map((item) => {
         const active = item === locale;
 
@@ -41,10 +41,10 @@ export function LocaleSwitcher({ locale }: LocaleSwitcherProps) {
             type="button"
             onClick={() => handleLocaleChange(item)}
             disabled={active || isPending}
-            className={`rounded-full px-3 py-2 text-xs font-semibold tracking-[0.18em] transition duration-300 ${
+            className={`rounded-full px-2 py-1 transition duration-300 ${
               active
-                ? "bg-[var(--color-text)] text-[var(--color-surface)]"
-                : "text-[var(--color-soft-text)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
+                ? "text-[var(--color-text)]"
+                : "text-[var(--color-soft-text)] hover:text-[var(--color-text)]"
             }`}
             aria-pressed={active}
             aria-label={`Switch language to ${item}`}
