@@ -111,9 +111,13 @@ function buildTableOfContents(contentHtml: string) {
   };
 }
 
+export function isPostCategory(category?: string): category is PostCategory {
+  return postCategories.some((item) => item === category);
+}
+
 function normalizeCategory(category?: string): PostCategory {
-  if (category && postCategories.includes(category as PostCategory)) {
-    return category as PostCategory;
+  if (isPostCategory(category)) {
+    return category;
   }
 
   return "misc";
@@ -158,6 +162,11 @@ export async function getPostsByCategory(): Promise<GroupedPosts[]> {
     category,
     posts: posts.filter((post) => post.category === category),
   }));
+}
+
+export async function getPostsForCategory(category: PostCategory) {
+  const posts = await getAllPosts();
+  return posts.filter((post) => post.category === category);
 }
 
 export async function getRecentPosts(limit = 3) {

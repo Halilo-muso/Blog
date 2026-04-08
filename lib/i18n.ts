@@ -89,6 +89,8 @@ export const dictionaries = {
         "This archive contains every published post, grouped by category for a clearer browsing flow.",
       continueReading: "Continue reading",
       categoryOverview: "Browse by category",
+      allPosts: "All posts",
+      viewCategory: "Open category page",
       emptyCategory: "No posts in this category yet.",
       categories: {
         tech: "Tech",
@@ -183,6 +185,8 @@ export const dictionaries = {
       description: "这里收录所有已发布的文章，并按分类整理，方便继续浏览。",
       continueReading: "继续阅读",
       categoryOverview: "按分类浏览",
+      allPosts: "全部文章",
+      viewCategory: "打开分类页",
       emptyCategory: "这个分类暂时还没有文章。",
       categories: {
         tech: "技术",
@@ -212,7 +216,7 @@ export const dictionaries = {
       ],
     },
     footer: {
-      line: "Shalilo · 慢慢建造，審慎發佈。",
+      line: "Shalilo · 慢慢建造，審慎發布。",
       stack: "Next.js 15 · Tailwind CSS · Markdown · RSS",
       uptimeLabel: "已運行",
     },
@@ -262,7 +266,7 @@ export const dictionaries = {
         },
         {
           title: "方向",
-          description: "目標是做出一個更安靜、更銳利、更個人化的閱讀空間。",
+          description: "目標是做出一個更安靜、更鋒利、更個人化的閱讀空間。",
           href: "/blog/hello-shalilo",
         },
       ],
@@ -277,6 +281,8 @@ export const dictionaries = {
       description: "這裡收錄所有已發佈的文章，並按分類整理，方便繼續瀏覽。",
       continueReading: "繼續閱讀",
       categoryOverview: "按分類瀏覽",
+      allPosts: "全部文章",
+      viewCategory: "打開分類頁",
       emptyCategory: "這個分類暫時還沒有文章。",
       categories: {
         tech: "技術",

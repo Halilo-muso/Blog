@@ -1,8 +1,9 @@
 ﻿import type { Metadata } from "next";
+import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
 import { getDictionary } from "@/lib/i18n";
 import { getPreferredLocale } from "@/lib/locale";
-import { getPostsByCategory, postCategories } from "@/lib/posts";
+import { getPostsByCategory, isPostCategory, postCategories } from "@/lib/posts";
 
 const pageTitle = "Blog";
 const pageDescription =
@@ -26,10 +27,26 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
+type BlogPageProps = {
+  searchParams: Promise<{ category?: string }>;
+};
+
+function getChipClassName(active: boolean) {
+  return [
+    "inline-flex items-center gap-3 rounded-full border px-4 py-2 text-sm transition duration-300",
+    active
+      ? "border-[var(--color-accent)] bg-[color:color-mix(in_srgb,var(--color-accent)_15%,var(--color-card))] text-[var(--color-text)]"
+      : "border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_76%,transparent)] text-[var(--color-soft-text)] hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:text-[var(--color-text)]",
+  ].join(" ");
+}
+
+export default async function BlogPage({ searchParams }: BlogPageProps) {
   const locale = await getPreferredLocale();
   const dictionary = getDictionary(locale);
   const groupedPosts = await getPostsByCategory();
+  const { category } = await searchParams;
+  const activeCategory = isPostCategory(category) ? category : null;
+  const visibleCategories = activeCategory ? [activeCategory] : postCategories;
 
   return (
     <div className="space-y-12">
@@ -48,40 +65,57 @@ export default async function BlogPage() {
           {dictionary.blog.categoryOverview}
         </p>
         <div className="flex flex-wrap gap-3">
+          <Link href="/blog" className={getChipClassName(activeCategory === null)}>
+            <span>{dictionary.blog.allPosts}</span>
+            <span className="rounded-full bg-[color:color-mix(in_srgb,var(--color-surface)_82%,transparent)] px-2 py-0.5 text-xs text-[var(--color-muted)]">
+              {groupedPosts.reduce((total, group) => total + group.posts.length, 0)}
+            </span>
+          </Link>
+
           {groupedPosts.map((group) => (
-            <a
+            <Link
               key={group.category}
-              href={`#category-${group.category}`}
-              className="inline-flex items-center gap-3 rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_76%,transparent)] px-4 py-2 text-sm text-[var(--color-soft-text)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-accent)] hover:text-[var(--color-text)]"
+              href={`/blog?category=${group.category}`}
+              className={getChipClassName(activeCategory === group.category)}
             >
               <span>{dictionary.blog.categories[group.category]}</span>
               <span className="rounded-full bg-[color:color-mix(in_srgb,var(--color-surface)_82%,transparent)] px-2 py-0.5 text-xs text-[var(--color-muted)]">
                 {group.posts.length}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </section>
 
       <div className="space-y-12">
-        {postCategories.map((category) => {
-          const group = groupedPosts.find((item) => item.category === category);
+        {visibleCategories.map((categoryKey) => {
+          const group = groupedPosts.find((item) => item.category === categoryKey);
           const posts = group?.posts ?? [];
 
           return (
-            <section key={category} id={`category-${category}`} className="space-y-6 scroll-mt-28">
-              <div className="flex items-end justify-between gap-4 border-b border-[var(--color-border)] pb-4">
+            <section
+              key={categoryKey}
+              id={`category-${categoryKey}`}
+              className="space-y-6 scroll-mt-28"
+            >
+              <div className="flex flex-col gap-4 border-b border-[var(--color-border)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                 <div className="space-y-2">
                   <p className="text-[0.7rem] uppercase tracking-[0.3em] text-[var(--color-muted)]">
                     {dictionary.blog.categoryOverview}
                   </p>
                   <h2 className="font-display text-4xl tracking-tight text-[var(--color-text)]">
-                    {dictionary.blog.categories[category]}
+                    {dictionary.blog.categories[categoryKey]}
                   </h2>
                 </div>
-                <span className="text-sm text-[var(--color-muted)]">
-                  {posts.length}
-                </span>
+                <div className="flex items-center gap-3 text-sm text-[var(--color-muted)]">
+                  <span>{posts.length}</span>
+                  <Link
+                    href={`/blog/category/${categoryKey}`}
+                    className="transition hover:text-[var(--color-accent)]"
+                  >
+                    {dictionary.blog.viewCategory}
+                  </Link>
+                </div>
               </div>
 
               {posts.length > 0 ? (
