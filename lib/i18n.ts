@@ -105,7 +105,7 @@ export const dictionaries = {
       tagline: "随笔、文章与方向",
       navigation: [
         { href: "/", label: "首页" },
-        { href: "/blog", label: "博客" },
+        { href: "/blog", label: "Blog" },
         { href: "/feed.xml", label: "RSS" },
       ],
     },
@@ -143,7 +143,7 @@ export const dictionaries = {
         },
         {
           label: "网易云音乐",
-          description: "写作、阅读和打磨博客时循环播放的音乐。",
+          description: "写作、阅读和打磨这个站点时循环播放的音乐。",
           href: "music",
         },
       ],
@@ -155,7 +155,7 @@ export const dictionaries = {
         },
         {
           title: "近况",
-          description: "最近在继续优化博客、写更多内容，也在公开学习。",
+          description: "最近在继续优化网站、写更多内容，也在公开学习。",
           href: "/blog/diary",
         },
         {
@@ -171,7 +171,7 @@ export const dictionaries = {
     },
     blog: {
       eyebrow: "归档",
-      title: "博客文章",
+      title: "Blog",
       description:
         "这里收录所有已发布的文章，包括随笔、日记与较长篇幅的写作。",
       continueReading: "继续阅读",
@@ -192,7 +192,7 @@ export const dictionaries = {
       tagline: "隨筆、文章與方向",
       navigation: [
         { href: "/", label: "首頁" },
-        { href: "/blog", label: "部落格" },
+        { href: "/blog", label: "Blog" },
         { href: "/feed.xml", label: "RSS" },
       ],
     },
@@ -230,7 +230,7 @@ export const dictionaries = {
         },
         {
           label: "網易雲音樂",
-          description: "寫作、閱讀與打磨部落格時循環播放的音樂。",
+          description: "寫作、閱讀與打磨這個站點時循環播放的音樂。",
           href: "music",
         },
       ],
@@ -242,7 +242,7 @@ export const dictionaries = {
         },
         {
           title: "近況",
-          description: "最近在持續優化部落格、寫更多內容，也在公開學習。",
+          description: "最近在持續優化網站、寫更多內容，也在公開學習。",
           href: "/blog/diary",
         },
         {
@@ -258,7 +258,7 @@ export const dictionaries = {
     },
     blog: {
       eyebrow: "歸檔",
-      title: "部落格文章",
+      title: "Blog",
       description:
         "這裡收錄所有已發佈的文章，包括隨筆、日記與較長篇幅的寫作。",
       continueReading: "繼續閱讀",
