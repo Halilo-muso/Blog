@@ -2,8 +2,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ReadingProgress } from "@/components/reading-progress";
+import { getDictionary } from "@/lib/i18n";
+import { getPreferredLocale } from "@/lib/locale";
 import {
   formatDate,
+  formatReadingTime,
   getAdjacentPosts,
   getAllPosts,
   getPostBySlug,
@@ -62,6 +65,8 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const locale = await getPreferredLocale();
+  const dictionary = getDictionary(locale);
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
@@ -81,12 +86,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               href="/blog"
               className="inline-flex text-sm text-[var(--color-soft-text)] transition hover:text-[var(--color-accent)]"
             >
-              Back to all posts
+              {dictionary.post.back}
             </Link>
 
             <div className="space-y-4">
               <p className="text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]">
-                Journal
+                {dictionary.post.section}
               </p>
               <h1 className="font-display text-5xl leading-tight tracking-tight text-balance xl:text-6xl">
                 {post.title}
@@ -95,8 +100,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {post.summary}
               </p>
               <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]">
-                <span>{formatDate(post.date)}</span>
-                <span>{post.readingTime}</span>
+                <span>{formatDate(post.date, locale)}</span>
+                <span>{formatReadingTime(post.readingMinutes, locale)}</span>
               </div>
               {post.tags.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
@@ -126,7 +131,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   className="rounded-[1.25rem] border border-[var(--color-border)] bg-[var(--color-card)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
                 >
                   <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                    Newer post
+                    {dictionary.post.newer}
                   </p>
                   <p className="mt-3 font-display text-2xl tracking-tight">
                     {next.title}
@@ -142,7 +147,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   className="rounded-[1.25rem] border border-[var(--color-border)] bg-[var(--color-card)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
                 >
                   <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                    Older post
+                    {dictionary.post.older}
                   </p>
                   <p className="mt-3 font-display text-2xl tracking-tight">
                     {previous.title}
@@ -157,7 +162,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <aside className="hidden lg:block lg:sticky lg:top-28">
             <div className="rounded-[1.25rem] border border-[var(--color-border)] bg-[var(--color-card)]/92 p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)] backdrop-blur">
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                On this page
+                {dictionary.post.toc}
               </p>
               <nav className="mt-4 flex flex-col gap-3 text-sm text-[var(--color-soft-text)]">
                 {post.toc.map((item) => (
@@ -179,3 +184,5 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     </div>
   );
 }
+
+

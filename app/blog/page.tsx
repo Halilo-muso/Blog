@@ -1,5 +1,7 @@
 ﻿import type { Metadata } from "next";
 import { ArticleCard } from "@/components/article-card";
+import { getDictionary } from "@/lib/i18n";
+import { getPreferredLocale } from "@/lib/locale";
 import { getAllPosts } from "@/lib/posts";
 
 const pageTitle = "Blog";
@@ -25,26 +27,29 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
+  const locale = await getPreferredLocale();
+  const dictionary = getDictionary(locale);
   const posts = await getAllPosts();
 
   return (
     <div className="space-y-10">
       <section className="space-y-4">
         <p className="text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]">
-          Archive
+          {dictionary.blog.eyebrow}
         </p>
-        <h1 className="font-display text-5xl tracking-tight">Blog posts</h1>
+        <h1 className="font-display text-5xl tracking-tight">{dictionary.blog.title}</h1>
         <p className="max-w-2xl text-base leading-8 text-[var(--color-soft-text)]">
-          This archive contains every published post. Phase 2 expands the
-          reading experience with richer metadata and better post navigation.
+          {dictionary.blog.description}
         </p>
       </section>
 
       <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {posts.map((post) => (
-          <ArticleCard key={post.slug} post={post} />
+          <ArticleCard key={post.slug} post={post} locale={locale} />
         ))}
       </section>
     </div>
   );
 }
+
+

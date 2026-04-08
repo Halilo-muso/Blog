@@ -3,6 +3,8 @@ import Script from "next/script";
 import { Manrope, Newsreader } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { getLocaleTag } from "@/lib/i18n";
+import { getPreferredLocale } from "@/lib/locale";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -46,14 +48,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getPreferredLocale();
+
   return (
     <html
-      lang="en"
+      lang={getLocaleTag(locale)}
       suppressHydrationWarning
       className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >
@@ -82,3 +86,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+

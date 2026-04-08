@@ -1,12 +1,19 @@
 ﻿import Link from "next/link";
-import type { PostSummary } from "@/lib/posts";
-import { formatDate } from "@/lib/posts";
+import { getDictionary, type SiteLocale } from "@/lib/i18n";
+import {
+  formatDate,
+  formatReadingTime,
+  type PostSummary,
+} from "@/lib/posts";
 
 type ArticleCardProps = {
   post: PostSummary;
+  locale: SiteLocale;
 };
 
-export function ArticleCard({ post }: ArticleCardProps) {
+export function ArticleCard({ post, locale }: ArticleCardProps) {
+  const dictionary = getDictionary(locale);
+
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -14,8 +21,8 @@ export function ArticleCard({ post }: ArticleCardProps) {
     >
       <div className="flex flex-1 flex-col">
         <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">
-          <span>{formatDate(post.date)}</span>
-          <span>{post.readingTime}</span>
+          <span>{formatDate(post.date, locale)}</span>
+          <span>{formatReadingTime(post.readingMinutes, locale)}</span>
         </div>
         <h3 className="mt-4 font-display text-3xl leading-tight tracking-tight">
           {post.title}
@@ -39,7 +46,7 @@ export function ArticleCard({ post }: ArticleCardProps) {
       ) : null}
 
       <span className="mt-6 text-sm font-semibold text-[var(--color-accent)]">
-        Continue reading
+        {dictionary.blog.continueReading}
       </span>
     </Link>
   );

@@ -5,6 +5,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeStringify from "rehype-stringify";
 import { remark } from "remark";
 import remarkRehype from "remark-rehype";
+import { getDateLocale, getDictionary, type SiteLocale } from "@/lib/i18n";
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
@@ -19,7 +20,7 @@ type PostFrontmatter = {
 export type PostSummary = Omit<PostFrontmatter, "tags"> & {
   slug: string;
   tags: string[];
-  readingTime: string;
+  readingMinutes: number;
 };
 
 export type TocItem = {
@@ -56,13 +57,12 @@ async function readMarkdownFile(slug: string) {
   };
 }
 
-function calculateReadingTime(content: string) {
+function calculateReadingMinutes(content: string) {
   const latinWords = content.trim().split(/\s+/).filter(Boolean).length;
   const cjkChars = (content.match(/[\u4e00-\u9fff]/g) ?? []).length;
   const units = latinWords + cjkChars;
-  const minutes = Math.max(1, Math.ceil(units / 350));
 
-  return `${minutes} min read`;
+  return Math.max(1, Math.ceil(units / 350));
 }
 
 function slugifyHeading(text: string) {
@@ -107,7 +107,7 @@ function normalizeFrontmatter(
   return {
     ...frontmatter,
     tags: frontmatter.tags ?? [],
-    readingTime: calculateReadingTime(content),
+    readingMinutes: calculateReadingMinutes(content),
   };
 }
 
@@ -180,10 +180,20 @@ export async function getAdjacentPosts(slug: string): Promise<AdjacentPosts> {
   };
 }
 
-export function formatDate(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
+export function formatDate(date: string, locale: SiteLocale) {
+  return new Intl.DateTimeFormat(getDateLocale(locale), {
     year: "numeric",
     month: "long",
     day: "numeric",
   }).format(new Date(date));
+}
+
+export function formatReadingTime(minutes: number, locale: SiteLocale) {
+  const dictionary = getDictionary(locale);
+
+  if (locale === "en") {
+    return `${minutes} ${dictionary.common.minuteRead}`;
+  }
+
+  return `${minutes} ${dictionary.common.minuteRead}`;
 }
