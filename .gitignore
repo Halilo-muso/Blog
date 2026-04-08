@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -44,3 +44,12 @@ next-env.d.ts
 
 # local docs and private drafts
 docs/
+
+
+!docs/
+!docs/blog-feature-history.md
+
+
+# track only the public feature history document
+docs/*
+!docs/blog-feature-history.md

@@ -78,6 +78,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const { previous, next } = await getAdjacentPosts(slug);
   const hasTocSidebar = post.toc.length >= 3;
+  const hasMobileToc = post.toc.length > 0;
   const categoryLabel = dictionary.blog.categories[post.category];
 
   return (
@@ -90,7 +91,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             : "max-w-[54rem]"
         }`}
       >
-        <div className="min-w-0 space-y-12">
+        <div className="min-w-0 space-y-10">
           <header className="relative overflow-hidden rounded-[2.2rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-panel)_84%,transparent)] px-6 py-7 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:px-8 sm:py-9">
             <div className="absolute -right-10 top-0 h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.24),transparent_68%)] blur-2xl" />
             <div className="relative space-y-6">
@@ -137,10 +138,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </header>
 
-          <div
-            className="article-body"
-            dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-          />
+          {hasMobileToc ? (
+            <details className="article-mobile-toc lg:hidden">
+              <summary>
+                <span>{dictionary.post.toc}</span>
+                <span aria-hidden="true">+</span>
+              </summary>
+              <div className="mt-4">
+                <PostTableOfContents items={post.toc} title={dictionary.post.toc} compact />
+              </div>
+            </details>
+          ) : null}
+
+          <div className="article-reading-shell">
+            <div
+              className="article-body"
+              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+            />
+          </div>
 
           {previous || next ? (
             <nav className="grid gap-4 border-t border-[var(--color-border)] pt-8 sm:grid-cols-2">

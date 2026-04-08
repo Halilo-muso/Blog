@@ -179,9 +179,46 @@ a {
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
 }
 
+.article-mobile-toc {
+  border: 1px solid var(--color-border);
+  border-radius: 1.4rem;
+  background: color-mix(in srgb, var(--color-card) 78%, transparent);
+  padding: 1rem 1rem 0.9rem;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+}
+
+.article-mobile-toc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.article-mobile-toc summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-mobile-toc[open] summary {
+  color: var(--color-text);
+}
+
+.article-reading-shell {
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
+  border-radius: 2rem;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-card) 78%, transparent), color-mix(in srgb, var(--color-card) 58%, transparent)),
+    radial-gradient(circle at top, rgba(245, 158, 11, 0.06), transparent 38%);
+  padding: clamp(1.25rem, 1rem + 1vw, 2.1rem);
+  box-shadow: 0 20px 58px rgba(15, 23, 42, 0.08);
+}
 .article-body {
   font-size: 1.08rem;
-  line-height: 1.98;
+  line-height: 2.02;
   color: var(--foreground);
 }
 
@@ -229,7 +266,7 @@ a {
 .article-body pre,
 .article-body table,
 .article-body hr {
-  margin: 1.35rem 0;
+  margin: 1.5rem 0;
 }
 
 .article-body p {
@@ -275,10 +312,10 @@ a {
 
 .article-body blockquote {
   border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-accent-strong);
+  border-left: 4px solid var(--color-accent-strong);
   border-radius: 1.25rem;
   background: color-mix(in srgb, var(--color-card) 76%, transparent);
-  padding: 1.05rem 1.2rem;
+  padding: 1.2rem 1.3rem;
   color: var(--color-soft-text);
 }
 
@@ -304,7 +341,7 @@ a {
   background: linear-gradient(180deg, #111827, #0f172a 55%, #0b1120);
   color: #e2e8f0;
   border-radius: 1.25rem;
-  padding: 1.2rem 1.25rem;
+  padding: 1.35rem 1.4rem;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 18px 50px rgba(2, 6, 23, 0.18);
@@ -394,8 +431,13 @@ a {
 }
 
 @media (max-width: 768px) {
+  .article-reading-shell {
+    padding: 1.1rem;
+    border-radius: 1.5rem;
+  }
+
   .article-body {
-    font-size: 1.02rem;
+    font-size: 1rem;
     line-height: 1.92;
   }
 
@@ -423,3 +465,5 @@ a {
     transform: translateY(0);
   }
 }
+
+

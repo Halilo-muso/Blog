@@ -6,9 +6,14 @@ import type { TocItem } from "@/lib/posts";
 type PostTableOfContentsProps = {
   items: TocItem[];
   title: string;
+  compact?: boolean;
 };
 
-export function PostTableOfContents({ items, title }: PostTableOfContentsProps) {
+export function PostTableOfContents({
+  items,
+  title,
+  compact = false,
+}: PostTableOfContentsProps) {
   const [activeId, setActiveId] = useState(items[0]?.id ?? "");
 
   useEffect(() => {
@@ -46,11 +51,19 @@ export function PostTableOfContents({ items, title }: PostTableOfContentsProps) 
   }, [items]);
 
   return (
-    <div className="rounded-[1.4rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_80%,transparent)] p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)] backdrop-blur">
+    <div
+      className={`rounded-[1.4rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_80%,transparent)] backdrop-blur ${
+        compact ? "p-4 shadow-none" : "p-5 shadow-[0_14px_48px_rgba(15,23,42,0.08)]"
+      }`}
+    >
       <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
         {title}
       </p>
-      <nav className="mt-4 flex flex-col gap-3 text-sm leading-6 text-[var(--color-soft-text)]">
+      <nav
+        className={`mt-4 flex flex-col text-sm leading-6 text-[var(--color-soft-text)] ${
+          compact ? "gap-2" : "gap-3"
+        }`}
+      >
         {items.map((item) => {
           const isActive = item.id === activeId;
 
@@ -62,7 +75,7 @@ export function PostTableOfContents({ items, title }: PostTableOfContentsProps) 
                 isActive
                   ? "border-[var(--color-accent)] pl-2 text-[var(--color-text)]"
                   : "border-transparent hover:border-[var(--color-accent)] hover:pl-2 hover:text-[var(--color-accent)]"
-              } ${item.level === 3 ? "ml-3" : ""}`}
+              } ${item.level === 3 ? (compact ? "ml-2" : "ml-3") : ""}`}
             >
               {item.text}
             </a>
