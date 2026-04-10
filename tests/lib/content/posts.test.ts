@@ -1,4 +1,4 @@
-﻿import assert from "node:assert/strict";
+import assert from "node:assert/strict";
 import test from "node:test";
 import { withTempContentRoot } from "../../helpers/content-root";
 import {
@@ -26,7 +26,7 @@ async function withWorkingDirectory(rootDir: string, run: () => Promise<void>) {
 }
 
 const fixtureFiles = {
-  "posts/newer.md": `---
+  "posts/z-newer.md": `---
 title: Newer Post
 date: 2026-04-03
 summary: Newer summary
@@ -43,7 +43,7 @@ tags:
 const value = 1;
 \`\`\`
 `,
-  "posts/older.md": `---
+  "posts/a-older.md": `---
 title: Older Post
 date: 2026-04-01
 summary: Older summary
@@ -67,7 +67,7 @@ test("posts API preserves blog filtering, sorting, and category behavior", async
   await withTempContentRoot(fixtureFiles, async (rootDir) => {
     await withWorkingDirectory(rootDir, async () => {
       const posts = await getAllPosts();
-      assert.deepEqual(posts.map((post) => post.slug), ["newer", "older"]);
+      assert.deepEqual(posts.map((post) => post.slug), ["z-newer", "a-older"]);
       assert.equal(posts[0].category, "tech");
       assert.equal(posts[1].category, "misc");
       assert.deepEqual(posts[1].tags, []);
@@ -78,10 +78,10 @@ test("posts API preserves blog filtering, sorting, and category behavior", async
       assert.equal(grouped.find((group) => group.category === "misc")?.posts.length, 1);
 
       const techPosts = await getPostsForCategory("tech");
-      assert.deepEqual(techPosts.map((post) => post.slug), ["newer"]);
+      assert.deepEqual(techPosts.map((post) => post.slug), ["z-newer"]);
 
       const recent = await getRecentPosts(1);
-      assert.deepEqual(recent.map((post) => post.slug), ["newer"]);
+      assert.deepEqual(recent.map((post) => post.slug), ["z-newer"]);
     });
   });
 });
@@ -89,7 +89,7 @@ test("posts API preserves blog filtering, sorting, and category behavior", async
 test("getPostBySlug preserves toc, code labels, and not-found semantics", async () => {
   await withTempContentRoot(fixtureFiles, async (rootDir) => {
     await withWorkingDirectory(rootDir, async () => {
-      const post = await getPostBySlug("newer");
+      const post = await getPostBySlug("z-newer");
       assert.ok(post);
       assert.deepEqual(post.toc, [
         { id: "intro", text: "Intro", level: 2 },
@@ -109,13 +109,13 @@ test("getPostBySlug preserves toc, code labels, and not-found semantics", async 
 test("adjacent post links keep existing direction semantics", async () => {
   await withTempContentRoot(fixtureFiles, async (rootDir) => {
     await withWorkingDirectory(rootDir, async () => {
-      const forNewer = await getAdjacentPosts("newer");
-      assert.equal(forNewer.previous?.slug, "older");
+      const forNewer = await getAdjacentPosts("z-newer");
+      assert.equal(forNewer.previous?.slug, "a-older");
       assert.equal(forNewer.next, null);
 
-      const forOlder = await getAdjacentPosts("older");
+      const forOlder = await getAdjacentPosts("a-older");
       assert.equal(forOlder.previous, null);
-      assert.equal(forOlder.next?.slug, "newer");
+      assert.equal(forOlder.next?.slug, "z-newer");
 
       const missing = await getAdjacentPosts("missing");
       assert.deepEqual(missing, { previous: null, next: null });
@@ -129,3 +129,5 @@ test("category guard and formatting helpers remain compatible", () => {
   assert.equal(formatReadingTime(5, "en"), "5 min read");
   assert.ok(formatDate("2026-04-03", "en").includes("2026"));
 });
+
+
