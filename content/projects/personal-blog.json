@@ -1,0 +1,11 @@
+{
+  "title": "Shalilo Blog",
+  "summary": "The personal site being built in public while learning frontend.",
+  "status": "active",
+  "startedAt": "2026-04-05",
+  "featured": true,
+  "links": [
+    { "label": "Live", "href": "https://www.sha1ilo.com" },
+    { "label": "Source", "href": "https://github.com/Halilo-muso/Blog" }
+  ]
+}
