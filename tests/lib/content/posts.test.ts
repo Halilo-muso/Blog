@@ -12,18 +12,7 @@ import {
   getRecentPosts,
   isPostCategory,
   postCategories,
-} from "@/lib/content/posts";
-
-async function withWorkingDirectory(rootDir: string, run: () => Promise<void>) {
-  const previousCwd = process.cwd();
-  process.chdir(rootDir);
-
-  try {
-    await run();
-  } finally {
-    process.chdir(previousCwd);
-  }
-}
+} from "@/lib/posts";
 
 const fixtureFiles = {
   "posts/z-newer.md": `---
@@ -65,61 +54,55 @@ Should stay hidden.
 
 test("posts API preserves blog filtering, sorting, and category behavior", async () => {
   await withTempContentRoot(fixtureFiles, async (rootDir) => {
-    await withWorkingDirectory(rootDir, async () => {
-      const posts = await getAllPosts();
-      assert.deepEqual(posts.map((post) => post.slug), ["z-newer", "a-older"]);
-      assert.equal(posts[0].category, "tech");
-      assert.equal(posts[1].category, "misc");
-      assert.deepEqual(posts[1].tags, []);
+    const posts = await getAllPosts({ rootDir });
+    assert.deepEqual(posts.map((post) => post.slug), ["z-newer", "a-older"]);
+    assert.equal(posts[0].category, "tech");
+    assert.equal(posts[1].category, "misc");
+    assert.deepEqual(posts[1].tags, []);
 
-      const grouped = await getPostsByCategory();
-      assert.deepEqual(grouped.map((group) => group.category), [...postCategories]);
-      assert.equal(grouped.find((group) => group.category === "tech")?.posts.length, 1);
-      assert.equal(grouped.find((group) => group.category === "misc")?.posts.length, 1);
+    const grouped = await getPostsByCategory({ rootDir });
+    assert.deepEqual(grouped.map((group) => group.category), [...postCategories]);
+    assert.equal(grouped.find((group) => group.category === "tech")?.posts.length, 1);
+    assert.equal(grouped.find((group) => group.category === "misc")?.posts.length, 1);
 
-      const techPosts = await getPostsForCategory("tech");
-      assert.deepEqual(techPosts.map((post) => post.slug), ["z-newer"]);
+    const techPosts = await getPostsForCategory("tech", { rootDir });
+    assert.deepEqual(techPosts.map((post) => post.slug), ["z-newer"]);
 
-      const recent = await getRecentPosts(1);
-      assert.deepEqual(recent.map((post) => post.slug), ["z-newer"]);
-    });
+    const recent = await getRecentPosts(1, { rootDir });
+    assert.deepEqual(recent.map((post) => post.slug), ["z-newer"]);
   });
 });
 
 test("getPostBySlug preserves toc, code labels, and not-found semantics", async () => {
   await withTempContentRoot(fixtureFiles, async (rootDir) => {
-    await withWorkingDirectory(rootDir, async () => {
-      const post = await getPostBySlug("z-newer");
-      assert.ok(post);
-      assert.deepEqual(post.toc, [
-        { id: "intro", text: "Intro", level: 2 },
-        { id: "details", text: "Details", level: 3 },
-      ]);
-      assert.match(post.contentHtml, /article-code-language">TypeScript</);
+    const post = await getPostBySlug("z-newer", { rootDir });
+    assert.ok(post);
+    assert.deepEqual(post.toc, [
+      { id: "intro", text: "Intro", level: 2 },
+      { id: "details", text: "Details", level: 3 },
+    ]);
+    assert.match(post.contentHtml, /article-code-language">TypeScript</);
 
-      const draft = await getPostBySlug("draft");
-      assert.equal(draft, null);
+    const draft = await getPostBySlug("draft", { rootDir });
+    assert.equal(draft, null);
 
-      const missing = await getPostBySlug("does-not-exist");
-      assert.equal(missing, null);
-    });
+    const missing = await getPostBySlug("does-not-exist", { rootDir });
+    assert.equal(missing, null);
   });
 });
 
 test("adjacent post links keep existing direction semantics", async () => {
   await withTempContentRoot(fixtureFiles, async (rootDir) => {
-    await withWorkingDirectory(rootDir, async () => {
-      const forNewer = await getAdjacentPosts("z-newer");
-      assert.equal(forNewer.previous?.slug, "a-older");
-      assert.equal(forNewer.next, null);
+    const forNewer = await getAdjacentPosts("z-newer", { rootDir });
+    assert.equal(forNewer.previous?.slug, "a-older");
+    assert.equal(forNewer.next, null);
 
-      const forOlder = await getAdjacentPosts("a-older");
-      assert.equal(forOlder.previous, null);
-      assert.equal(forOlder.next?.slug, "z-newer");
+    const forOlder = await getAdjacentPosts("a-older", { rootDir });
+    assert.equal(forOlder.previous, null);
+    assert.equal(forOlder.next?.slug, "z-newer");
 
-      const missing = await getAdjacentPosts("missing");
-      assert.deepEqual(missing, { previous: null, next: null });
-    });
+    const missing = await getAdjacentPosts("missing", { rootDir });
+    assert.deepEqual(missing, { previous: null, next: null });
   });
 });
 
@@ -129,5 +112,3 @@ test("category guard and formatting helpers remain compatible", () => {
   assert.equal(formatReadingTime(5, "en"), "5 min read");
   assert.ok(formatDate("2026-04-03", "en").includes("2026"));
 });
-
-
