@@ -71,3 +71,10 @@ const value = 1;
     },
   );
 });
+
+test("repo notes keep their Chinese text when loaded from disk", async () => {
+  const note = await getNoteBySlug("2026-04-06-diary");
+  assert.ok(note);
+  assert.equal(note.title, "\u904A\u73A9\u7684\u4E00\u5929");
+  assert.match(note.summary, /\u8A18\u9304\u4ECA\u5929\u7684\u65E5\u5E38/);
+});
