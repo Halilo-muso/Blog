@@ -53,3 +53,4 @@ docs/
 # track only the public feature history document
 docs/*
 !docs/blog-feature-history.md
+.worktrees/
