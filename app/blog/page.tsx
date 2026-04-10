@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
 import { getDictionary } from "@/lib/i18n";
@@ -7,7 +7,7 @@ import { getPostsByCategory, isPostCategory, postCategories } from "@/lib/posts"
 
 const pageTitle = "Blog";
 const pageDescription =
-  "All posts published on Shalilo, including notes, diary entries, and long-form writing.";
+  "All formal posts published on Shalilo, grouped by category for a clearer browsing flow.";
 
 export const metadata: Metadata = {
   title: pageTitle,
@@ -136,3 +136,4 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     </div>
   );
 }
+

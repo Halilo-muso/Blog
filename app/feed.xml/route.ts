@@ -1,4 +1,4 @@
-﻿import { getAllPosts } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
 
 function escapeXml(value: string) {
   return value
@@ -18,7 +18,7 @@ export async function GET() {
   <channel>
     <title>Shalilo</title>
     <link>${siteUrl}</link>
-    <description>Updates from Shalilo's blog.</description>
+    <description>Updates from Shalilo's formal blog writing.</description>
     <language>en-us</language>
     ${posts
       .map(
@@ -41,3 +41,4 @@ export async function GET() {
     },
   });
 }
+

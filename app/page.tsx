@@ -1,14 +1,13 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
-import { getDictionary, type SiteLocale } from "@/lib/i18n";
+import { LinkCard } from "@/components/link-card";
+import { NoteCard } from "@/components/note-card";
+import { ProjectCard } from "@/components/project-card";
+import { getHomepageOverview } from "@/lib/content/home";
+import { getDictionary } from "@/lib/i18n";
 import { getPreferredLocale } from "@/lib/locale";
-import { formatDate, formatReadingTime, getAllPosts, getRecentPosts } from "@/lib/posts";
+import { formatDate, formatReadingTime, getAllPosts } from "@/lib/posts";
 import { siteConfig } from "@/lib/site";
-
-type StatItem = {
-  label: string;
-  value: string;
-};
 
 function GitHubIcon() {
   return (
@@ -48,31 +47,12 @@ const socialLinks = [
 ] as const;
 
 function getHomeStats(
-  locale: SiteLocale,
   totalPosts: number,
   categoryCount: number,
   startedValue: string,
   statusLabel: string,
   statusValue: string,
-): StatItem[] {
-  if (locale === "zh-CN") {
-    return [
-      { label: "文章", value: String(totalPosts) },
-      { label: "分类", value: String(categoryCount) },
-      { label: "开始于", value: startedValue },
-      { label: statusLabel, value: statusValue },
-    ];
-  }
-
-  if (locale === "zh-TW") {
-    return [
-      { label: "文章", value: String(totalPosts) },
-      { label: "分類", value: String(categoryCount) },
-      { label: "開始於", value: startedValue },
-      { label: statusLabel, value: statusValue },
-    ];
-  }
-
+) {
   return [
     { label: "Posts", value: String(totalPosts) },
     { label: "Categories", value: String(categoryCount) },
@@ -81,14 +61,21 @@ function getHomeStats(
   ];
 }
 
+function getSectionLabels(locale: string, blogLabel: string, notesLabel: string) {
+  return {
+    blog: blogLabel,
+    notes: notesLabel,
+    projects: locale === "zh-CN" ? "Projects" : locale === "zh-TW" ? "Projects" : "Projects",
+    links: locale === "zh-CN" ? "Links" : locale === "zh-TW" ? "Links" : "Links",
+  };
+}
+
 export default async function Home() {
   const locale = await getPreferredLocale();
   const dictionary = getDictionary(locale);
-  const recentPosts = await getRecentPosts(3);
+  const overview = await getHomepageOverview();
   const allPosts = await getAllPosts();
-  const [featuredLink, ...secondaryLinks] = dictionary.home.quickLinks;
   const stats = getHomeStats(
-    locale,
     allPosts.length,
     new Set(allPosts.map((post) => post.category)).size,
     dictionary.home.startedValue,
@@ -96,6 +83,8 @@ export default async function Home() {
     dictionary.home.statusValue,
   );
   const avatar = siteConfig.profile.avatar.trim();
+  const sectionLabels = getSectionLabels(locale, dictionary.home.recentEyebrow, dictionary.notes.eyebrow);
+
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-18 pb-12 lg:gap-24">
       <section className="space-y-10 border-b border-[var(--color-border)] pb-12 lg:space-y-12 lg:pb-16">
@@ -105,9 +94,7 @@ export default async function Home() {
               {dictionary.home.eyebrow}
             </p>
             <div className="space-y-6">
-              <p className="text-sm leading-7 text-[var(--color-soft-text)]">
-                {dictionary.home.badge}
-              </p>
+              <p className="text-sm leading-7 text-[var(--color-soft-text)]">{dictionary.home.badge}</p>
               <h1 className="max-w-4xl font-display text-balance text-[3.3rem] leading-[0.96] tracking-[-0.055em] text-[var(--color-text)] sm:text-[4.35rem] lg:text-[5.55rem]">
                 {dictionary.home.title[0]}
                 <br />
@@ -174,7 +161,7 @@ export default async function Home() {
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-soft-text)]">
             <span className="text-[0.7rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-              {dictionary.home.linksEyebrow}
+              {dictionary.home.linksTitle}
             </span>
             {socialLinks.map((item) => {
               const Icon = item.icon;
@@ -211,58 +198,11 @@ export default async function Home() {
         </dl>
       </section>
 
-      <section className="grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-        <Link
-          href={featuredLink.href}
-          className="home-quiet-panel group flex min-h-[17rem] flex-col justify-between rounded-[2rem] p-7 sm:p-8"
-        >
-          <div className="space-y-5">
-            <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-              {featuredLink.title}
-            </p>
-            <h2 className="max-w-xl font-display text-4xl tracking-[-0.05em] text-[var(--color-text)] sm:text-[3.35rem]">
-              {featuredLink.title}
-            </h2>
-            <p className="max-w-xl text-base leading-8 text-[var(--color-soft-text)]">
-              {featuredLink.description}
-            </p>
-          </div>
-          <span className="mt-8 text-sm font-medium text-[var(--color-text)] transition duration-300 group-hover:translate-x-1">
-            {dictionary.home.archiveLink} -&gt;
-          </span>
-        </Link>
-
-        <div className="grid gap-4">
-          {secondaryLinks.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className="home-quiet-panel group rounded-[1.7rem] p-6"
-            >
-              <p className="text-[0.68rem] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-                {item.title}
-              </p>
-              <h3 className="mt-5 font-display text-3xl tracking-[-0.04em] text-[var(--color-text)]">
-                {item.title}
-              </h3>
-              <p className="mt-4 text-sm leading-7 text-[var(--color-soft-text)]">
-                {item.description}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
       <section className="space-y-6 border-t border-[var(--color-border)] pt-8">
         <div className="flex items-end justify-between gap-4">
-          <div className="space-y-2">
-            <p className="text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-muted)]">
-              {dictionary.home.recentEyebrow}
-            </p>
-            <h2 className="font-display text-4xl tracking-[-0.04em] text-[var(--color-text)] sm:text-5xl">
-              {dictionary.home.recentTitle}
-            </h2>
-          </div>
+          <p className="text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-muted)]">
+            {sectionLabels.blog}
+          </p>
           <Link
             href="/blog"
             className="text-sm font-medium text-[var(--color-soft-text)] transition hover:text-[var(--color-text)]"
@@ -270,13 +210,12 @@ export default async function Home() {
             {dictionary.home.archiveLink}
           </Link>
         </div>
-
         <div className="divide-y divide-[var(--color-border)] border-y border-[var(--color-border)]">
-          {recentPosts.map((post) => (
+          {overview.posts.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group grid gap-4 py-5 transition duration-300 first:pt-0 last:pb-0 md:grid-cols-[minmax(0,1fr)_auto]"
+              className="group grid gap-4 py-5 first:pt-0 last:pb-0 md:grid-cols-[minmax(0,1fr)_auto]"
             >
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
@@ -293,11 +232,43 @@ export default async function Home() {
                   </p>
                 </div>
               </div>
-
               <span className="text-sm font-medium text-[var(--color-soft-text)] transition duration-300 group-hover:translate-x-1 group-hover:text-[var(--color-text)]">
                 -&gt;
               </span>
             </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-6 border-t border-[var(--color-border)] pt-8">
+        <p className="text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-muted)]">
+          {sectionLabels.notes}
+        </p>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {overview.notes.map((note) => (
+            <NoteCard key={note.slug} note={note} locale={locale} />
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-6 border-t border-[var(--color-border)] pt-8">
+        <p className="text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-muted)]">
+          {sectionLabels.projects}
+        </p>
+        <div className="grid gap-5 md:grid-cols-2">
+          {overview.projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-6 border-t border-[var(--color-border)] pt-8">
+        <p className="text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-muted)]">
+          {sectionLabels.links}
+        </p>
+        <div className="grid gap-5 md:grid-cols-2">
+          {overview.links.map((link) => (
+            <LinkCard key={link.slug} link={link} />
           ))}
         </div>
       </section>

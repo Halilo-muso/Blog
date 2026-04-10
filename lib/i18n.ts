@@ -14,10 +14,14 @@ export const localeLabels: Record<SiteLocale, string> = {
 export const dictionaries = {
   en: {
     header: {
-      tagline: "Notes, posts, direction",
+      tagline: "Notes, posts, projects, direction",
       navigation: [
         { href: "/", label: "Home" },
         { href: "/blog", label: "Blog" },
+        { href: "/notes", label: "Notes" },
+        { href: "/projects", label: "Projects" },
+        { href: "/about", label: "About" },
+        { href: "/links", label: "Links" },
         { href: "/feed.xml", label: "RSS" },
       ],
     },
@@ -47,7 +51,6 @@ export const dictionaries = {
         { label: "Mode", value: "Dark-first" },
       ],
       linksTitle: "Personal links",
-      linksEyebrow: "Find me",
       profileLinks: [
         {
           label: "GitHub",
@@ -79,6 +82,10 @@ export const dictionaries = {
       ],
       recentEyebrow: "Recent posts",
       recentTitle: "Latest writing",
+      blogEyebrow: "Latest blog",
+      notesEyebrow: "Latest notes",
+      projectsEyebrow: "Projects",
+      linksEyebrow: "Links",
       archiveLink: "View archive",
       externalLabel: "External",
     },
@@ -152,7 +159,6 @@ export const dictionaries = {
         { label: "风格", value: "深色优先" },
       ],
       linksTitle: "个人链接",
-      linksEyebrow: "找到我",
       profileLinks: [
         {
           label: "GitHub",
@@ -256,7 +262,6 @@ export const dictionaries = {
         { label: "風格", value: "深色優先" },
       ],
       linksTitle: "個人連結",
-      linksEyebrow: "找到我",
       profileLinks: [
         {
           label: "GitHub",
