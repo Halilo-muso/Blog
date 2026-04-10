@@ -1,4 +1,4 @@
-﻿# Blog Feature History
+# Blog Feature History
 
 这份文档记录 blog 的阶段性功能变化。以后每次新增、删除或明显调整一个功能，都同步记在这里。
 
@@ -6,6 +6,14 @@
 - `Added` = 新增功能
 - `Changed` = 调整/优化已有功能
 - `Removed` = 删除功能
+
+## 2026-04-10
+
+### Dual Stream Portal
+- `Added`: `/notes` 作为独立内容流，不再把日记型内容混在 blog 中。
+- `Added`: `/projects`、`/about`、`/links` 页面，站点结构从单一博客扩展为个人站点。
+- `Changed`: 首页重组为身份介绍、最新 Blog、最新 Notes、Projects 与 Links 的总览页。
+- `Changed`: 旧的 diary `blog` 链接永久重定向到新的 `notes` 路由。
 
 ## 2026-04-09
 

@@ -1,4 +1,4 @@
-﻿export const siteConfig = {
+export const siteConfig = {
   name: "Shalilo",
   url: "https://www.sha1ilo.com",
   description:
@@ -15,6 +15,18 @@
     github: "https://github.com/Halilo-muso",
     music: "https://music.163.com/",
   },
+  about: {
+    intro:
+      "I am building this site while learning frontend, writing in public, and trying to turn practice into a place that feels like mine.",
+    sections: [
+      {
+        title: "What I am doing",
+        body: "Learning frontend by shipping pages, refining writing, and slowly growing this site into a fuller personal space.",
+      },
+      {
+        title: "Why this site exists",
+        body: "To keep a record of what I make, what I learn, and how my thinking changes while I build in public.",
+      },
+    ],
+  },
 } as const;
-
-
