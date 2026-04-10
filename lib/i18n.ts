@@ -99,6 +99,14 @@ export const dictionaries = {
         misc: "Misc",
       },
     },
+    notes: {
+      eyebrow: "Notes",
+      title: "Notes & Says",
+      description: "Process, observations, ideas, and stage updates.",
+      continueReading: "Open note",
+      empty: "No notes published yet.",
+      back: "Back to all notes",
+    },
     post: {
       back: "Back to all posts",
       newer: "Newer post",
@@ -195,6 +203,14 @@ export const dictionaries = {
         misc: "杂项",
       },
     },
+    notes: {
+      eyebrow: "Notes",
+      title: "Notes 与动态",
+      description: "过程、观察、想法，以及阶段性的更新记录。",
+      continueReading: "打开笔记",
+      empty: "还没有已发布的 notes。",
+      back: "返回全部 notes",
+    },
     post: {
       back: "返回全部文章",
       newer: "较新的文章",
@@ -290,6 +306,14 @@ export const dictionaries = {
         music: "音樂",
         misc: "雜項",
       },
+    },
+    notes: {
+      eyebrow: "Notes",
+      title: "Notes 與動態",
+      description: "過程、觀察、想法，以及階段性的更新記錄。",
+      continueReading: "打開筆記",
+      empty: "還沒有已發佈的 notes。",
+      back: "返回全部 notes",
     },
     post: {
       back: "返回全部文章",
