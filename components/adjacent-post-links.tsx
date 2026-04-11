@@ -37,7 +37,7 @@ export function AdjacentPostLinks({ previous, next, locale, labels, categoryLabe
                   aria-hidden="true"
                   className="text-lg text-[var(--color-muted)] transition duration-300 group-hover:translate-x-1 group-hover:text-[var(--color-text)]"
                 >
-                  ¡ú
+                  ï¿½ï¿½
                 </span>
               </div>
               <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">{next.title}</p>
@@ -66,7 +66,7 @@ export function AdjacentPostLinks({ previous, next, locale, labels, categoryLabe
                   aria-hidden="true"
                   className="text-lg text-[var(--color-muted)] transition duration-300 group-hover:-translate-x-1 group-hover:text-[var(--color-text)]"
                 >
-                  ¡û
+                  ï¿½ï¿½
                 </span>
               </div>
               <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">{previous.title}</p>

@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BackToTopButton } from "@/components/back-to-top-button";
+import { DetailPageMetadata } from "@/components/detail-page-metadata";
 import { PostTableOfContents } from "@/components/post-table-of-contents";
 import { ReadingProgress } from "@/components/reading-progress";
 import { getAllNotes, getNoteBySlug } from "@/lib/content/notes";
 import { getDictionary } from "@/lib/i18n";
 import { getPreferredLocale } from "@/lib/locale";
-import { formatDate, formatReadingTime } from "@/lib/posts";
 
 type NotePageProps = {
   params: Promise<{ slug: string }>;
@@ -90,27 +90,18 @@ export default async function NotePage({ params }: NotePageProps) {
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]">
-                <span className="rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_75%,transparent)] px-3 py-1.5">
-                  {formatDate(note.date, locale)}
-                </span>
-                <span className="rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_75%,transparent)] px-3 py-1.5">
-                  {formatReadingTime(note.readingMinutes, locale)}
-                </span>
-              </div>
-
-              {note.tags.length > 0 ? (
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {note.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_68%,transparent)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--color-soft-text)]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
+              <DetailPageMetadata
+                date={note.date}
+                readingMinutes={note.readingMinutes}
+                tags={note.tags}
+                locale={locale}
+                labels={{
+                  metadata: dictionary.common.metadata,
+                  publishedOn: dictionary.common.publishedOn,
+                  readingTime: dictionary.common.readingTime,
+                  tags: dictionary.common.tags,
+                }}
+              />
             </div>
           </header>
 

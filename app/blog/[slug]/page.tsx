@@ -1,14 +1,14 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AdjacentPostLinks } from "@/components/adjacent-post-links";
 import { BackToTopButton } from "@/components/back-to-top-button";
+import { DetailPageMetadata } from "@/components/detail-page-metadata";
 import { PostTableOfContents } from "@/components/post-table-of-contents";
 import { ReadingProgress } from "@/components/reading-progress";
 import { getDictionary } from "@/lib/i18n";
 import { getPreferredLocale } from "@/lib/locale";
 import {
-  formatDate,
-  formatReadingTime,
   getAdjacentPosts,
   getAllPosts,
   getPostBySlug,
@@ -114,27 +114,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]">
-                <span className="rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_75%,transparent)] px-3 py-1.5">
-                  {formatDate(post.date, locale)}
-                </span>
-                <span className="rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_75%,transparent)] px-3 py-1.5">
-                  {formatReadingTime(post.readingMinutes, locale)}
-                </span>
-              </div>
-
-              {post.tags.length > 0 ? (
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_68%,transparent)] px-3 py-1 text-xs uppercase tracking-[0.18em] text-[var(--color-soft-text)]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
+              <DetailPageMetadata
+                date={post.date}
+                readingMinutes={post.readingMinutes}
+                tags={post.tags}
+                locale={locale}
+                labels={{
+                  metadata: dictionary.common.metadata,
+                  publishedOn: dictionary.common.publishedOn,
+                  readingTime: dictionary.common.readingTime,
+                  tags: dictionary.common.tags,
+                }}
+              />
             </div>
           </header>
 
@@ -157,63 +148,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
           </div>
 
-          {previous || next ? (
-            <nav className="grid gap-4 border-t border-[var(--color-border)] pt-8 sm:grid-cols-2">
-              {next ? (
-                <Link
-                  href={`/blog/${next.slug}`}
-                  className="group rounded-[1.7rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_78%,transparent)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
-                >
-                  <div className="flex h-full flex-col justify-between gap-6">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between gap-4">
-                        <p className="text-[0.68rem] uppercase tracking-[0.26em] text-[var(--color-muted)]">
-                          {dictionary.post.newer}
-                        </p>
-                        <span className="text-lg text-[var(--color-muted)] transition duration-300 group-hover:translate-x-1 group-hover:text-[var(--color-text)]">
-                          →
-                        </span>
-                      </div>
-                      <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
-                        {next.title}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3 text-[0.7rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
-                      <span>{formatDate(next.date, locale)}</span>
-                      <span>{dictionary.blog.categories[next.category]}</span>
-                    </div>
-                  </div>
-                </Link>
-              ) : null}
-
-              {previous ? (
-                <Link
-                  href={`/blog/${previous.slug}`}
-                  className="group rounded-[1.7rem] border border-[var(--color-border)] bg-[color:color-mix(in_srgb,var(--color-card)_78%,transparent)] p-5 transition duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]"
-                >
-                  <div className="flex h-full flex-col justify-between gap-6">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between gap-4">
-                        <p className="text-[0.68rem] uppercase tracking-[0.26em] text-[var(--color-muted)]">
-                          {dictionary.post.older}
-                        </p>
-                        <span className="text-lg text-[var(--color-muted)] transition duration-300 group-hover:-translate-x-1 group-hover:text-[var(--color-text)]">
-                          ←
-                        </span>
-                      </div>
-                      <p className="font-display text-2xl tracking-[-0.04em] text-[var(--color-text)]">
-                        {previous.title}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3 text-[0.7rem] uppercase tracking-[0.24em] text-[var(--color-muted)]">
-                      <span>{formatDate(previous.date, locale)}</span>
-                      <span>{dictionary.blog.categories[previous.category]}</span>
-                    </div>
-                  </div>
-                </Link>
-              ) : null}
-            </nav>
-          ) : null}
+          <AdjacentPostLinks
+            previous={previous}
+            next={next}
+            locale={locale}
+            labels={{
+              newer: dictionary.post.newer,
+              older: dictionary.post.older,
+            }}
+            categoryLabels={dictionary.blog.categories}
+          />
         </div>
 
         {hasTocSidebar ? (
