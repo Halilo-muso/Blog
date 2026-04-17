@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BackToTopButton } from "@/components/back-to-top-button";
 import { DetailPageMetadata } from "@/components/detail-page-metadata";
+import { NoteAiVersionPanel } from "@/components/note-ai-version-panel";
 import { PostTableOfContents } from "@/components/post-table-of-contents";
 import { ReadingProgress } from "@/components/reading-progress";
 import { getAllNotes, getNoteBySlug } from "@/lib/content/notes";
@@ -120,6 +121,15 @@ export default async function NotePage({ params }: NotePageProps) {
           <div className="article-reading-shell">
             <div className="article-body" dangerouslySetInnerHTML={{ __html: note.contentHtml }} />
           </div>
+
+          <NoteAiVersionPanel
+            contentHtml={note.aiVersionHtml}
+            labels={{
+              toggle: dictionary.notes.aiVersionToggle,
+              badge: dictionary.notes.aiVersionBadge,
+              description: dictionary.notes.aiVersionDescription,
+            }}
+          />
         </div>
 
         {hasTocSidebar ? (

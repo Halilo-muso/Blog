@@ -113,6 +113,9 @@ export const dictionaries = {
       continueReading: "Open note",
       empty: "No notes published yet.",
       back: "Back to all notes",
+      aiVersionToggle: "View AI-polished version",
+      aiVersionBadge: "AI version",
+      aiVersionDescription: "Another rendering of the same diary entry.",
     },
     post: {
       back: "Back to all posts",
@@ -220,6 +223,9 @@ export const dictionaries = {
       continueReading: "打开笔记",
       empty: "还没有已发布的 notes。",
       back: "返回全部 notes",
+      aiVersionToggle: "查看 AI 润色版",
+      aiVersionBadge: "AI 版本",
+      aiVersionDescription: "同一篇日记的另一种写法",
     },
     post: {
       back: "返回全部文章",
@@ -327,6 +333,9 @@ export const dictionaries = {
       continueReading: "打開筆記",
       empty: "還沒有已發佈的 notes。",
       back: "返回全部 notes",
+      aiVersionToggle: "查看 AI 潤色版",
+      aiVersionBadge: "AI 版本",
+      aiVersionDescription: "同一篇日記的另一種寫法",
     },
     post: {
       back: "返回全部文章",

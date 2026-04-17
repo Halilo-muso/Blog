@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+﻿import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import rehypeHighlight from "rehype-highlight";
@@ -31,6 +31,7 @@ export type NoteTocItem = {
 export type Note = NoteSummary & {
   contentHtml: string;
   toc: NoteTocItem[];
+  aiVersionHtml?: string;
 };
 
 type NoteOptions = {
@@ -41,6 +42,36 @@ function getNotesDirectory(rootDir = process.cwd()) {
   return resolveCollectionDirectory("notes", rootDir);
 }
 
+function isPublicNoteFile(fileName: string) {
+  return fileName.endsWith(".md") && !fileName.endsWith(".ai.md");
+}
+
+async function renderMarkdownContent(content: string) {
+  const processedContent = await remark()
+    .use(remarkRehype)
+    .use(rehypeHighlight)
+    .use(rehypeStringify)
+    .process(content);
+
+  const { contentHtml, toc } = buildTableOfContents(processedContent.toString());
+
+  return {
+    contentHtml: enhanceCodeBlocks(contentHtml),
+    toc,
+  };
+}
+
+async function getOptionalAiVersionHtml(fullPath: string) {
+  try {
+    const fileContents = await fs.readFile(fullPath, "utf8");
+    const { content } = matter(fileContents);
+    const rendered = await renderMarkdownContent(content);
+    return rendered.contentHtml;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function getAllNotes(
   { rootDir = process.cwd() }: NoteOptions = {},
 ): Promise<NoteSummary[]> {
@@ -49,7 +80,7 @@ export async function getAllNotes(
 
   const notes = await Promise.all(
     fileNames
-      .filter((fileName) => fileName.endsWith(".md"))
+      .filter(isPublicNoteFile)
       .map(async (fileName) => {
         const slug = fileName.replace(/\.md$/, "");
         const fileContents = await fs.readFile(path.join(notesDirectory, fileName), "utf8");
@@ -82,7 +113,8 @@ export async function getNoteBySlug(
   { rootDir = process.cwd() }: NoteOptions = {},
 ): Promise<Note | null> {
   try {
-    const fullPath = path.join(getNotesDirectory(rootDir), `${slug}.md`);
+    const notesDirectory = getNotesDirectory(rootDir);
+    const fullPath = path.join(notesDirectory, `${slug}.md`);
     const fileContents = await fs.readFile(fullPath, "utf8");
     const { data, content } = matter(fileContents);
 
@@ -90,13 +122,8 @@ export async function getNoteBySlug(
       return null;
     }
 
-    const processedContent = await remark()
-      .use(remarkRehype)
-      .use(rehypeHighlight)
-      .use(rehypeStringify)
-      .process(content);
-
-    const { contentHtml, toc } = buildTableOfContents(processedContent.toString());
+    const renderedMain = await renderMarkdownContent(content);
+    const aiVersionHtml = await getOptionalAiVersionHtml(path.join(notesDirectory, `${slug}.ai.md`));
 
     return {
       slug,
@@ -106,8 +133,9 @@ export async function getNoteBySlug(
       tags: data.tags ?? [],
       published: data.published,
       readingMinutes: calculateReadingMinutes(content),
-      contentHtml: enhanceCodeBlocks(contentHtml),
-      toc,
+      contentHtml: renderedMain.contentHtml,
+      toc: renderedMain.toc,
+      aiVersionHtml,
     };
   } catch {
     return null;
